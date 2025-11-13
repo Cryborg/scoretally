@@ -25,10 +25,22 @@ fun AppThemeProvider(
         initial = UserPreferences()
     )
     val systemInDarkTheme = isSystemInDarkTheme()
+    val context = LocalContext.current
 
-    // Apply language preference
+    // Track previous language to detect changes
+    var previousLanguage by remember { mutableStateOf<AppLanguage?>(null) }
+
+    // Apply language preference and recreate activity on change
     LaunchedEffect(userPreferences.language) {
-        applyLanguage(userPreferences.language)
+        if (previousLanguage != null && previousLanguage != userPreferences.language) {
+            // Language changed, apply and recreate
+            applyLanguage(userPreferences.language)
+            (context as? Activity)?.recreate()
+        } else {
+            // First load, just apply without recreating
+            applyLanguage(userPreferences.language)
+            previousLanguage = userPreferences.language
+        }
     }
 
     // Determine dark theme based on preference
