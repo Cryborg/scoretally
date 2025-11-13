@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.MatchPlayer
 import com.scoretally.domain.model.MatchWithDetails
+import com.scoretally.domain.repository.MatchPlayerRepository
 import com.scoretally.domain.usecase.GetMatchWithDetailsUseCase
-import com.scoretally.domain.usecase.UpdatePlayerScoreUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,7 +24,7 @@ data class MatchDetailUiState(
 class MatchDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMatchWithDetailsUseCase: GetMatchWithDetailsUseCase,
-    private val updatePlayerScoreUseCase: UpdatePlayerScoreUseCase
+    private val matchPlayerRepository: MatchPlayerRepository
 ) : ViewModel() {
 
     private val matchId: Long = savedStateHandle.get<Long>("matchId") ?: 0L
@@ -50,7 +50,9 @@ class MatchDetailViewModel @Inject constructor(
 
     fun updateScore(matchPlayer: MatchPlayer, newScore: Int) {
         viewModelScope.launch {
-            updatePlayerScoreUseCase(matchPlayer, newScore)
+            matchPlayerRepository.updateMatchPlayer(
+                matchPlayer.copy(score = newScore)
+            )
         }
     }
 

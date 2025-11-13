@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Game
 import com.scoretally.domain.model.Match
 import com.scoretally.domain.model.Player
+import com.scoretally.domain.repository.GameRepository
+import com.scoretally.domain.repository.PlayerRepository
 import com.scoretally.domain.usecase.CreateMatchWithPlayersUseCase
-import com.scoretally.domain.usecase.GetAllGamesUseCase
-import com.scoretally.domain.usecase.GetAllPlayersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ data class AddMatchUiState(
 
 @HiltViewModel
 class AddMatchViewModel @Inject constructor(
-    getAllGamesUseCase: GetAllGamesUseCase,
-    getAllPlayersUseCase: GetAllPlayersUseCase,
+    gameRepository: GameRepository,
+    playerRepository: PlayerRepository,
     private val createMatchWithPlayersUseCase: CreateMatchWithPlayersUseCase
 ) : ViewModel() {
 
@@ -38,8 +38,8 @@ class AddMatchViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             combine(
-                getAllGamesUseCase(),
-                getAllPlayersUseCase()
+                gameRepository.getAllGames(),
+                playerRepository.getAllPlayers()
             ) { games, players ->
                 _uiState.value.copy(games = games, players = players)
             }.collect { state ->

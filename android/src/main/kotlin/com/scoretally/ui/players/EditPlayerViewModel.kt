@@ -4,8 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Player
-import com.scoretally.domain.usecase.GetPlayerByIdUseCase
-import com.scoretally.domain.usecase.UpdatePlayerUseCase
+import com.scoretally.domain.repository.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,8 +25,7 @@ data class EditPlayerUiState(
 @HiltViewModel
 class EditPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getPlayerByIdUseCase: GetPlayerByIdUseCase,
-    private val updatePlayerUseCase: UpdatePlayerUseCase
+    private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
     private val playerId: Long = checkNotNull(savedStateHandle["playerId"])
@@ -42,7 +40,7 @@ class EditPlayerViewModel @Inject constructor(
     private fun loadPlayer() {
         viewModelScope.launch {
             try {
-                val player = getPlayerByIdUseCase(playerId)
+                val player = playerRepository.getPlayerById(playerId)
                 if (player != null) {
                     _uiState.value = _uiState.value.copy(
                         name = player.name,
@@ -86,7 +84,7 @@ class EditPlayerViewModel @Inject constructor(
                     name = state.name,
                     preferredColor = state.preferredColor
                 )
-                updatePlayerUseCase(player)
+                playerRepository.updatePlayer(player)
                 _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isSaving = false, error = e.message)

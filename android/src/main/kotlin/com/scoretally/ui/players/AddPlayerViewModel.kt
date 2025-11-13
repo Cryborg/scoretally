@@ -3,7 +3,7 @@ package com.scoretally.ui.players
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Player
-import com.scoretally.domain.usecase.InsertPlayerUseCase
+import com.scoretally.domain.repository.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +20,7 @@ data class AddPlayerUiState(
 
 @HiltViewModel
 class AddPlayerViewModel @Inject constructor(
-    private val insertPlayerUseCase: InsertPlayerUseCase
+    private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddPlayerUiState())
@@ -47,7 +47,7 @@ class AddPlayerViewModel @Inject constructor(
                     name = state.name,
                     preferredColor = state.preferredColor
                 )
-                insertPlayerUseCase(player)
+                playerRepository.insertPlayer(player)
                 _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isSaving = false)

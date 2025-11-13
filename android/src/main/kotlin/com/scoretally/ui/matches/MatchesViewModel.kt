@@ -3,7 +3,7 @@ package com.scoretally.ui.matches
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Match
-import com.scoretally.domain.usecase.GetAllMatchesUseCase
+import com.scoretally.domain.repository.MatchRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchesViewModel @Inject constructor(
-    getAllMatchesUseCase: GetAllMatchesUseCase
+    matchRepository: MatchRepository
 ) : ViewModel() {
 
-    val matches: StateFlow<List<Match>> = getAllMatchesUseCase()
+    val matches: StateFlow<List<Match>> = matchRepository.getAllMatches()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

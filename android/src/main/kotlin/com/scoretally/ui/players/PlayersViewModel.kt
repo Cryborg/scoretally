@@ -3,7 +3,7 @@ package com.scoretally.ui.players
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Player
-import com.scoretally.domain.usecase.GetAllPlayersUseCase
+import com.scoretally.domain.repository.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    getAllPlayersUseCase: GetAllPlayersUseCase
+    playerRepository: PlayerRepository
 ) : ViewModel() {
 
-    val players: StateFlow<List<Player>> = getAllPlayersUseCase()
+    val players: StateFlow<List<Player>> = playerRepository.getAllPlayers()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),

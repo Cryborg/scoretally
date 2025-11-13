@@ -3,7 +3,7 @@ package com.scoretally.ui.games
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Game
-import com.scoretally.domain.usecase.InsertGameUseCase
+import com.scoretally.domain.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,7 @@ data class AddGameUiState(
 
 @HiltViewModel
 class AddGameViewModel @Inject constructor(
-    private val insertGameUseCase: InsertGameUseCase
+    private val gameRepository: GameRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddGameUiState())
@@ -82,7 +82,7 @@ class AddGameViewModel @Inject constructor(
                     description = state.description,
                     scoreIncrement = scoreIncrement
                 )
-                insertGameUseCase(game)
+                gameRepository.insertGame(game)
                 _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isSaving = false)
