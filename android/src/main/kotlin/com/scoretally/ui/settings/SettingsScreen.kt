@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.AppLanguage
 import com.scoretally.domain.model.AppTheme
+import kotlin.math.abs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,6 +77,15 @@ fun SettingsScreen(
                 onSignInClick = { signInLauncher.launch(viewModel.getSignInIntent()) },
                 onSignOutClick = viewModel::signOut
             )
+
+            if (authState.isSignedIn) {
+                SyncSection(
+                    autoSyncEnabled = userPreferences.autoSyncEnabled,
+                    lastSyncTimestamp = userPreferences.lastSyncTimestamp,
+                    onAutoSyncToggle = viewModel::updateAutoSync,
+                    onSyncNowClick = viewModel::triggerManualSync
+                )
+            }
         }
     }
 }
@@ -275,5 +286,105 @@ fun GoogleSignInSection(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SyncSection(
+    autoSyncEnabled: Boolean,
+    lastSyncTimestamp: Long,
+    onAutoSyncToggle: (Boolean) -> Unit,
+    onSyncNowClick: () -> Unit
+) {
+    Column {
+        Text(
+            text = "Synchronisation",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Toggle Auto-Sync
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Synchronisation automatique",
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                        Text(
+                            text = "Synchronise toutes les heures",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(
+                        checked = autoSyncEnabled,
+                        onCheckedChange = onAutoSyncToggle
+                    )
+                }
+
+                HorizontalDivider()
+
+                // Dernière sync
+                if (lastSyncTimestamp > 0) {
+                    val timeSinceSync = formatTimeSinceSync(lastSyncTimestamp)
+                    Text(
+                        text = "Dernière sync : $timeSinceSync",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    Text(
+                        text = "Aucune synchronisation effectuée",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                // Bouton Sync Now
+                Button(
+                    onClick = onSyncNowClick,
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = autoSyncEnabled
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Synchroniser maintenant")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun formatTimeSinceSync(timestamp: Long): String {
+    val now = System.currentTimeMillis()
+    val diffMillis = abs(now - timestamp)
+
+    val minutes = diffMillis / (1000 * 60)
+    val hours = diffMillis / (1000 * 60 * 60)
+    val days = diffMillis / (1000 * 60 * 60 * 24)
+
+    return when {
+        minutes < 1 -> "à l'instant"
+        minutes < 60 -> "il y a ${minutes}min"
+        hours < 24 -> "il y a ${hours}h"
+        days == 1L -> "il y a 1 jour"
+        else -> "il y a ${days} jours"
     }
 }

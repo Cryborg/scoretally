@@ -9,6 +9,7 @@ import com.scoretally.domain.model.AuthState
 import com.scoretally.domain.model.UserPreferences
 import com.scoretally.domain.repository.GoogleAuthRepository
 import com.scoretally.domain.repository.PreferencesRepository
+import com.scoretally.domain.sync.SyncManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
-    private val googleAuthRepository: GoogleAuthRepository
+    private val googleAuthRepository: GoogleAuthRepository,
+    private val syncManager: SyncManager
 ) : ViewModel() {
 
     val userPreferences: StateFlow<UserPreferences> = preferencesRepository.userPreferences
@@ -69,5 +71,17 @@ class SettingsViewModel @Inject constructor(
 
     fun clearSignInError() {
         _signInError.value = null
+    }
+
+    fun updateAutoSync(enabled: Boolean) {
+        viewModelScope.launch {
+            preferencesRepository.updateAutoSyncEnabled(enabled)
+        }
+    }
+
+    fun triggerManualSync() {
+        viewModelScope.launch {
+            syncManager.triggerManualSync()
+        }
     }
 }
