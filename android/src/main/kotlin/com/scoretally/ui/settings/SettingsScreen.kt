@@ -323,7 +323,7 @@ fun SyncSection(
                             style = MaterialTheme.typography.titleSmall
                         )
                         Text(
-                            text = "Synchronise toutes les heures",
+                            text = "Synchronise toutes les 15min",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

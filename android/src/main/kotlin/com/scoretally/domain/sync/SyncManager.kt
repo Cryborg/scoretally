@@ -27,7 +27,7 @@ class SyncManager @Inject constructor(
 
     companion object {
         private const val SYNC_WORK_NAME = "scoretally_sync_work"
-        private const val SYNC_INTERVAL_HOURS = 1L
+        private const val SYNC_INTERVAL_MINUTES = 15L
     }
 
     init {
@@ -49,8 +49,8 @@ class SyncManager @Inject constructor(
             .build()
 
         val syncWorkRequest = PeriodicWorkRequestBuilder<SyncWorker>(
-            SYNC_INTERVAL_HOURS,
-            TimeUnit.HOURS
+            SYNC_INTERVAL_MINUTES,
+            TimeUnit.MINUTES
         )
             .setConstraints(constraints)
             .build()
