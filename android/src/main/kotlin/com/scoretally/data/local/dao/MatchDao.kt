@@ -12,6 +12,9 @@ interface MatchDao {
     @Query("SELECT * FROM matches WHERE id = :matchId")
     suspend fun getMatchById(matchId: Long): MatchEntity?
 
+    @Query("SELECT * FROM matches WHERE syncId = :syncId")
+    suspend fun getMatchBySyncId(syncId: String): MatchEntity?
+
     @Query("SELECT * FROM matches WHERE gameId = :gameId ORDER BY dateTimestamp DESC")
     fun getMatchesByGame(gameId: Long): Flow<List<MatchEntity>>
 

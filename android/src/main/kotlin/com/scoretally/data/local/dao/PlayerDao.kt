@@ -12,6 +12,9 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE id = :playerId")
     suspend fun getPlayerById(playerId: Long): PlayerEntity?
 
+    @Query("SELECT * FROM players WHERE syncId = :syncId")
+    suspend fun getPlayerBySyncId(syncId: String): PlayerEntity?
+
     @Query("SELECT * FROM players WHERE name LIKE '%' || :query || '%'")
     fun searchPlayers(query: String): Flow<List<PlayerEntity>>
 
