@@ -2,6 +2,12 @@
 
 Ce document regroupe les idées de fonctionnalités à implémenter dans les futures versions de ScoreTally.
 
+**Légende** :
+- ✅ : Fonctionnalité implémentée
+- ⏳ : Fonctionnalité en cours ou partiellement implémentée
+- 🔜 : Fonctionnalité prévue pour la prochaine version
+- 💡 : Idée pour versions futures
+
 ## 🎮 Modes de jeu (Core Feature - À implémenter en priorité)
 
 ### Mode Comptage Rapide (Quick Score)
@@ -98,27 +104,25 @@ Permettre à l'utilisateur de configurer l'interface selon ses besoins :
 
 ## 📚 Ludothèque étendue
 
-### Gestion avancée des jeux
-Amélioration de la bibliothèque de jeux existante avec :
+### Gestion des jeux
+État actuel de la bibliothèque de jeux :
 
-- **Image personnalisée** : Upload/sélection d'une image pour chaque jeu
-- **Description complète** : Zone de texte libre pour décrire le jeu
-- **Système de notation** : Notes sur 5 étoiles
-- **Notes personnelles** :
-  - Bloc-notes pour chaque jeu
-  - Mémos sur les stratégies gagnantes
-  - Variantes de règles testées
-  - Anecdotes de parties
-- **Métadonnées enrichies** :
+- ✅ **Créer et lister des jeux**
+- ✅ **Champs de base** : nom, min/max joueurs, durée moyenne
+- ✅ **Champs secondaires** : catégorie, description, notes
+- ✅ **Score increment configurable** : Incrément par défaut pour le comptage des scores
+- ⏳ **Image personnalisée** : Upload/sélection d'une image pour chaque jeu
+- ⏳ **Système de notation** : Notes sur 5 étoiles
+- ⏳ **Métadonnées enrichies** :
   - Éditeur
   - Année de sortie
   - Complexité (1-5)
   - Type de jeu (coopératif, compétitif, solo, etc.)
   - Temps de setup
   - Extensions possédées
-- **Wishlist** : Marquer des jeux comme "à acheter"
-- **Lieu de stockage** : Où le jeu est rangé physiquement
-- **État** : Possédé / Emprunté / Prêté (avec à qui)
+- ⏳ **Wishlist** : Marquer des jeux comme "à acheter"
+- ⏳ **Lieu de stockage** : Où le jeu est rangé physiquement
+- ⏳ **État** : Possédé / Emprunté / Prêté (avec à qui)
 
 ### Intégration BoardGameGeek (future)
 - Import automatique des infos depuis BGG
@@ -128,44 +132,46 @@ Amélioration de la bibliothèque de jeux existante avec :
 ## 🎨 Interface & UX
 
 ### Thèmes UI personnalisables
-- **Thèmes prédéfinis** :
-  - Thème par défaut (violet Material 3)
-  - Thème sombre / clair (déjà implémenté avec Dynamic Colors)
-  - Thèmes colorés : Bleu, Vert, Rouge, Orange, Rose
-  - Thèmes "jeux" : Bois/vintage, Minimaliste, Coloré/ludique
-- **Personnalisation avancée** :
+- **Thèmes de base** :
+  - ✅ Thème par défaut (Material 3 avec Dynamic Color)
+  - ✅ Thème sombre / clair avec détection système
+  - ✅ Sélection manuelle dans les paramètres
+  - ✅ Application immédiate du changement de thème
+  - ⏳ Thèmes colorés additionnels : Bleu, Vert, Rouge, Orange, Rose
+  - ⏳ Thèmes "jeux" : Bois/vintage, Minimaliste, Coloré/ludique
+- **Personnalisation avancée** (à venir) :
   - Sélection de couleur primaire/secondaire
   - Choix du mode d'accentuation
   - Prévisualisation en temps réel
   - Sauvegarde de plusieurs thèmes personnalisés
-- **Application contextuelle** :
+- **Application contextuelle** (à venir) :
   - Thème différent par jeu (optionnel)
   - Thème nuit automatique selon l'heure
-- **Autres personnalisations** :
+- **Autres personnalisations** (à venir) :
   - Polices de caractères alternatives
   - Taille de police (accessibilité)
   - Espacement et densité de l'UI
   - Forme des cartes (arrondies, carrées, etc.)
 
-### Internationalisation (i18n)
-- **Langues supportées** (à venir) :
-  - 🇫🇷 Français (par défaut)
-  - 🇬🇧 Anglais
+### ✅ Internationalisation (i18n) - IMPLÉMENTÉE
+- **Langues supportées** :
+  - 🇬🇧 Anglais (par défaut)
+  - 🇫🇷 Français
   - 🇪🇸 Espagnol
   - 🇩🇪 Allemand
   - 🇮🇹 Italien
-  - + Autres langues selon la demande
+  - + Autres langues selon la demande (à venir)
 - **Éléments traduits** :
-  - Interface complète (boutons, menus, messages)
-  - Noms des catégories par défaut
-  - Messages d'erreur et notifications
-  - Aide et tutoriels
+  - ✅ Interface complète (boutons, menus, messages)
+  - ✅ Toutes les chaînes de caractères de l'application
+  - ⏳ Messages d'erreur et notifications (à compléter)
+  - ⏳ Aide et tutoriels (à venir)
 - **Gestion** :
-  - Détection automatique de la langue système
-  - Sélection manuelle dans les paramètres
-  - Fichiers de ressources strings.xml multilingues
-  - Format standard Android pour les traductions
-- **Formats localisés** :
+  - ✅ Détection automatique de la langue système
+  - ✅ Sélection manuelle dans les paramètres
+  - ✅ Fichiers de ressources strings.xml multilingues
+  - ✅ Application immédiate du changement de langue
+- **Formats localisés** (à venir) :
   - Dates et heures selon la locale
   - Formats de nombres et durées
   - Monnaies (si fonctionnalité prix des jeux ajoutée)

@@ -1,80 +1,229 @@
-# Instructions Claude pour ce Template
+# ScoreTally - Documentation pour Claude
 
-Ce projet est un **template libGDX/Kotlin** destiné à servir de base pour de nouveaux jeux mobiles.
+## 📱 Description du Projet
 
-## 🎯 Objectif du Template
+**ScoreTally** est une application Android de gestion de scores pour les jeux de société. Elle permet de suivre les parties, gérer une ludothèque personnelle et une liste de joueurs, et consulter des statistiques.
 
-Fournir un point de départ rapide et propre pour créer des jeux Android avec :
-- Configuration Gradle fonctionnelle
-- Architecture SOLID/DRY/KISS
-- Natives libGDX correctement configurés
-- Support multi-plateforme (Android + Desktop)
+## 🏗️ Architecture
 
-## ⚠️ IMPORTANT : Faire Évoluer le Template
+### Stack Technique
+- **Langage** : Kotlin
+- **UI** : Jetpack Compose + Material Design 3
+- **Architecture** : Clean Architecture (Data/Domain/Presentation)
+- **Injection de dépendances** : Hilt/Dagger
+- **Base de données** : Room (version 2)
+- **Navigation** : Navigation Compose
+- **Préférences** : DataStore Preferences
+- **Coroutines** : Flow, StateFlow, viewModelScope
+- **Build** : Gradle 8.13 + Kotlin DSL
 
-Quand tu travailles sur d'autres projets de jeu (comme Idle Mine Tycoon), et que tu développes des **fonctionnalités génériques et réutilisables**, pense à les **ajouter au template** !
-
-### Exemples de fonctionnalités à ajouter :
-
-#### ✅ À Ajouter au Template
-- **Système de sauvegarde** (SharedPreferences wrapper)
-- **Gestionnaire d'assets** (fonts, images, sons)
-- **Components UI réutilisables** (boutons stylisés, labels, barres de progression)
-- **Système d'animations/tweening**
-- **Gestionnaire audio** (musique, effets sonores)
-- **Classes utilitaires** (formatage de nombres, calculs, timers)
-- **Système de scènes/transitions** entre écrans
-- **Gestionnaire d'input** unifié
-- **Système de particules** basique
-- **Classes de base** pour les entités de jeu
-
-#### ❌ NE PAS Ajouter au Template
-- Logique métier spécifique à un jeu
-- Assets spécifiques (images, sons d'un jeu particulier)
-- Game design spécifique (idle mechanics, combat system, etc.)
-- Contenu narratif
-
-### Workflow pour Ajouter au Template
-
-1. **Développe** la fonctionnalité dans ton jeu actuel
-2. **Teste** qu'elle marche bien
-3. **Généralise** le code (enlève les dépendances spécifiques)
-4. **Copie** dans le template avec une structure propre
-5. **Documente** dans le README du template
-6. **Crée des exemples** d'utilisation en commentaires
-
-### Structure pour les Nouvelles Features
+### Structure du Projet
 
 ```
-core/src/main/kotlin/com/template/game/
-├── domain/
-│   ├── models/        # Modèles de base génériques
-│   └── usecases/      # Use cases communs
-├── data/
-│   ├── persistence/   # ← Système de sauvegarde
-│   └── repository/    # Patterns repository
-├── presentation/
-│   ├── screens/       # Écrans de base
-│   └── ui/           # ← Components UI réutilisables
-└── utils/            # ← Classes utilitaires
+scoretally/
+├── android/src/main/kotlin/com/scoretally/
+│   ├── data/
+│   │   ├── local/
+│   │   │   ├── dao/          # DAOs Room
+│   │   │   ├── database/     # Configuration Room
+│   │   │   └── entity/       # Entités Room
+│   │   └── repository/       # Implémentations des repositories
+│   ├── domain/
+│   │   ├── model/            # Modèles métier
+│   │   ├── repository/       # Interfaces des repositories
+│   │   └── usecase/          # Use cases
+│   ├── ui/
+│   │   ├── components/       # Composables réutilisables
+│   │   ├── games/            # Écrans de gestion des jeux
+│   │   ├── matches/          # Écrans de gestion des parties
+│   │   ├── players/          # Écrans de gestion des joueurs
+│   │   ├── settings/         # Écran des paramètres
+│   │   ├── navigation/       # Navigation et routes
+│   │   └── theme/            # Thème et styles
+│   └── di/                   # Modules Hilt
+├── android/src/main/res/
+│   ├── values/               # Strings anglais (défaut)
+│   ├── values-fr/            # Strings français
+│   ├── values-es/            # Strings espagnol
+│   ├── values-de/            # Strings allemand
+│   └── values-it/            # Strings italien
+└── build.gradle.kts
 ```
 
-## 📝 Checklist Avant d'Ajouter une Feature
+## 📊 Modèles de Données
 
-- [ ] Le code est générique et réutilisable
-- [ ] Pas de dépendances vers un jeu spécifique
-- [ ] Documentation claire (KDoc + README)
-- [ ] Exemples d'utilisation en commentaires
-- [ ] Suit les principes SOLID/DRY/KISS
-- [ ] Testé et fonctionnel
+### Entités Room
 
-## 🔄 Maintenir le Template à Jour
+1. **GameEntity** (table: `games`, version DB: 2)
+   - id, name, minPlayers, maxPlayers, averageDuration
+   - category, imageUri, description, rating, notes
+   - **scoreIncrement** (ajouté en v2)
 
-Le template doit rester **minimal mais complet** :
-- Ne pas le surcharger avec trop de features
-- Garder chaque feature **optionnelle et découplée**
-- Prioriser les fonctionnalités **les plus réutilisables**
+2. **PlayerEntity** (table: `players`)
+   - id, name, preferredColor
 
----
+3. **MatchEntity** (table: `matches`)
+   - id, gameId, startTime, endTime, notes, status
 
-**Rappel** : Ce template est vivant ! Enrichis-le au fur et à mesure de tes projets. 🚀
+4. **MatchPlayerEntity** (table: `match_players`)
+   - matchId, playerId, score, rank
+
+### Modèles Métier
+
+- **Game** : Représente un jeu de société
+- **Player** : Représente un joueur
+- **Match** : Représente une partie jouée
+- **MatchPlayer** : Lien entre partie et joueur avec score
+- **MatchWithDetails** : Agrégation Match + Game + PlayerScores
+- **PlayerScore** : Agrégation MatchPlayer + Player
+- **UserPreferences** : Préférences utilisateur (langue, thème)
+- **AppLanguage** : Enum (SYSTEM, ENGLISH, FRENCH, SPANISH, GERMAN, ITALIAN)
+- **AppTheme** : Enum (SYSTEM, LIGHT, DARK)
+
+## 🧭 Navigation
+
+### Routes disponibles
+
+- **Screen.Matches** : Liste des parties (écran de démarrage)
+- **Screen.Games** : Liste des jeux
+- **Screen.Players** : Liste des joueurs
+- **Screen.Settings** : Paramètres de l'application
+- **Screen.AddMatch** : Créer une nouvelle partie
+- **Screen.AddGame** : Ajouter un jeu
+- **Screen.AddPlayer** : Ajouter un joueur
+- **Screen.MatchDetail** : Détails d'une partie avec gestion des scores
+- **Screen.GameDetail** : Détails d'un jeu (placeholder)
+- **Screen.PlayerDetail** : Détails d'un joueur (placeholder)
+
+### Navigation Bar (Bottom)
+
+4 onglets : Parties | Jeux | Joueurs | Paramètres
+
+## 🎨 Thème et Internationalisation
+
+### Thème
+- **Support** : Light / Dark / System (auto-détection)
+- **Dynamic Color** : Material You sur Android 12+
+- **Gestion** : AppThemeProvider observe les préférences et applique le thème
+- **Persistance** : DataStore Preferences
+
+### Internationalisation
+- **5 langues supportées** : EN (défaut), FR, ES, DE, IT
+- **Auto-détection** : Langue système par défaut
+- **Changement dynamique** : Via AppCompatDelegate.setApplicationLocales()
+- **Fichiers** : res/values-xx/strings.xml
+
+## ✨ Fonctionnalités Implémentées
+
+### ✅ Gestion des Jeux
+- Créer/Lister des jeux
+- Champs : nom, min/max joueurs, durée, catégorie, description, scoreIncrement
+- scoreIncrement permet de configurer l'incrément par défaut pour les scores
+
+### ✅ Gestion des Joueurs
+- Créer/Lister des joueurs
+- Champs : nom, couleur préférée
+- Affichage avec avatar coloré
+
+### ✅ Gestion des Parties
+- Créer une partie en sélectionnant un jeu et des joueurs
+- Redirection automatique vers l'écran de partie après création
+- Écran de détail avec :
+  - Liste des joueurs avec avatars colorés
+  - Boutons +/- pour incrémenter/décrémenter les scores
+  - Utilisation du scoreIncrement du jeu sélectionné
+  - Click sur le score pour édition manuelle via dialog
+  - Désactivation du bouton - quand score = 0
+
+### ✅ Paramètres
+- Sélection de la langue (5 langues)
+- Sélection du thème (System/Light/Dark)
+- Persistance avec DataStore
+- Application immédiate des changements
+
+### ✅ Base de Données
+- Room version 2
+- Migration destructive (fallbackToDestructiveMigration)
+- 4 tables : games, players, matches, match_players
+
+## 🔧 Dépendances Hilt
+
+### Modules configurés
+
+1. **DatabaseModule** : Fournit Room database et DAOs
+2. **RepositoryModule** : Bind les repositories
+   - GameRepository
+   - PlayerRepository
+   - MatchRepository
+   - MatchPlayerRepository
+   - PreferencesRepository
+
+## 🚀 Build et Déploiement
+
+### Compilation
+```bash
+cd scoretally && ./gradlew assembleDebug
+```
+
+### Installation sur device
+```bash
+adb install -r android/build/outputs/apk/debug/android-debug.apk
+```
+
+### Version actuelle
+- versionCode: 1
+- versionName: "1.0.0"
+- minSdk: 24
+- targetSdk: 34
+- compileSdk: 34
+
+## 🐛 Erreurs Connues et Solutions
+
+### Erreur : ClassCastException Long cannot be cast to String
+**Solution** : Utiliser `savedStateHandle.get<Long>("matchId")` et non `get<String>`
+
+### Erreur : MissingBinding android.content.Context
+**Solution** : Utiliser `@ApplicationContext` dans l'injection du Context pour PreferencesRepository
+
+### Erreur : Experimental Material3 API
+**Solution** : Ajouter `@OptIn(ExperimentalMaterial3Api::class)` sur les fonctions utilisant ExposedDropdownMenuBox
+
+### Warning : ArrowBack deprecated
+**Note** : Utiliser `Icons.AutoMirrored.Filled.ArrowBack` pour les prochaines implémentations
+
+## 📝 Conventions de Code
+
+- **Principes** : DRY, KISS, SOLID
+- **Pas de commentaires inutiles** : Le code doit être auto-documenté
+- **Pas de code mort** : Pas de code de rétrocompatibilité inutile
+- **Strings** : Toujours utiliser stringResource() - jamais de strings hardcodés
+- **Navigation** : Utiliser les fonctions createRoute() pour les routes avec paramètres
+- **Database** : Toute modification de schéma nécessite incrément de version
+
+## 🔄 Git Repository
+
+- **URL** : https://github.com/Cryborg/scoretally.git
+- **Branch** : master
+- **Commits** : Messages détaillés avec co-authorship Claude
+
+## 📋 TODO / À Faire
+
+Voir le fichier `FUTURE_FEATURES.md` pour la liste complète des fonctionnalités prévues.
+
+### Priorités court terme
+- Écrans GameDetail et PlayerDetail (actuellement placeholder)
+- Statistiques de base
+- Export/Import de données
+
+### Priorités moyen terme
+- Mode comptage rapide
+- Outils de jeu (dés, qui commence)
+- Thèmes UI personnalisables avancés
+
+## 💡 Notes pour les Prochaines Sessions
+
+- La base de données utilise `.fallbackToDestructiveMigration()` - penser à implémenter des migrations propres pour la production
+- Les préférences utilisateur sont appliquées au démarrage via `AppThemeProvider`
+- Toutes les modifications de thème/langue sont immédiates (LaunchedEffect)
+- Les scores utilisent le `scoreIncrement` configuré dans le jeu
+- Compile avec Java 21 et Kotlin 1.9.20
