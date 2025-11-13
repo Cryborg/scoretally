@@ -56,9 +56,13 @@ class SettingsViewModel @Inject constructor(
 
     fun handleSignInResult(data: Intent?) {
         viewModelScope.launch {
+            val wasSignedInBefore = userPreferences.value.lastSyncTimestamp > 0
             val result = googleAuthRepository.handleSignInResult(data)
             if (result.isFailure) {
                 _signInError.value = result.exceptionOrNull()?.message ?: "Sign in failed"
+            } else if (!wasSignedInBefore) {
+                // Première connexion : déclencher la sync automatiquement
+                syncManager.triggerManualSync()
             }
         }
     }

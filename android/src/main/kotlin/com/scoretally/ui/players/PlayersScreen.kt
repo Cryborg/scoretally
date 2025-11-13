@@ -1,5 +1,6 @@
 package com.scoretally.ui.players
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,8 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,24 +58,52 @@ fun PlayersScreen(
             }
         }
     ) { padding ->
-        if (players.isEmpty()) {
-            EmptyState(
-                message = stringResource(R.string.players_empty),
-                modifier = Modifier.padding(padding)
-            )
-        } else {
-            LazyColumn(
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background image with transparency
+            Image(
+                painter = painterResource(R.drawable.bg_players),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(players) { player ->
-                    PlayerItem(
-                        player = player,
-                        onClick = { onNavigateToPlayerDetail(player.id) }
+                    .alpha(0.3f),
+                contentScale = ContentScale.Crop
+            )
+
+            // Vignette overlay
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                MaterialTheme.colorScheme.background.copy(alpha = 0.7f)
+                            ),
+                            radius = 1200f
+                        )
                     )
+            )
+
+            // Content
+            if (players.isEmpty()) {
+                EmptyState(
+                    message = stringResource(R.string.players_empty),
+                    modifier = Modifier.padding(padding)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(players) { player ->
+                        PlayerItem(
+                            player = player,
+                            onClick = { onNavigateToPlayerDetail(player.id) }
+                        )
+                    }
                 }
             }
         }

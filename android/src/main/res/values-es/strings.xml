@@ -60,6 +60,10 @@
     <string name="add_game_description_label">Descripción</string>
     <string name="add_game_score_increment_label">Incremento de puntuación</string>
 
+    <!-- Edit Game -->
+    <string name="edit_game_title">Editar juego</string>
+    <string name="update">Actualizar</string>
+
     <!-- Players -->
     <string name="players_title">Mis Jugadores</string>
     <string name="players_empty">Aún no hay jugadores.\n¡Toca + para añadir uno!</string>
@@ -94,6 +98,7 @@
     <string name="settings_theme_system">Predeterminado del sistema</string>
     <string name="settings_theme_light">Claro</string>
     <string name="settings_theme_dark">Oscuro</string>
+    <string name="settings_theme_cartoon">Dibujos</string>
 
     <!-- Content Descriptions -->
     <string name="cd_add">Añadir</string>

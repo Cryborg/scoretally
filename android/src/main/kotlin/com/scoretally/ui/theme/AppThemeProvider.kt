@@ -47,6 +47,7 @@ fun AppThemeProvider(
     val darkTheme = when (userPreferences.theme) {
         AppTheme.LIGHT -> false
         AppTheme.DARK -> true
+        AppTheme.CARTOON -> false
         AppTheme.SYSTEM -> systemInDarkTheme
     }
 
@@ -55,6 +56,7 @@ fun AppThemeProvider(
         val nightMode = when (userPreferences.theme) {
             AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
             AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
+            AppTheme.CARTOON -> AppCompatDelegate.MODE_NIGHT_NO
             AppTheme.SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
         AppCompatDelegate.setDefaultNightMode(nightMode)
@@ -62,6 +64,7 @@ fun AppThemeProvider(
 
     ScoreTallyTheme(
         darkTheme = darkTheme,
+        theme = userPreferences.theme,
         content = content
     )
 }

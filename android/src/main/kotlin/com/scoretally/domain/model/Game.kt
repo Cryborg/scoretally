@@ -14,6 +14,7 @@ data class Game(
     val rating: Float = 0f,
     val notes: String = "",
     val scoreIncrement: Int = 1,
+    val allowNegativeScores: Boolean = true,
     val syncId: String = UUID.randomUUID().toString(),
     val lastModifiedAt: Long = System.currentTimeMillis(),
     val isDeleted: Boolean = false

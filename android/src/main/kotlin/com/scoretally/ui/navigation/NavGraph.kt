@@ -2,7 +2,7 @@ package com.scoretally.ui.navigation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.scoretally.ui.games.AddGameScreen
+import com.scoretally.ui.games.EditGameScreen
 import com.scoretally.ui.games.GamesScreen
 import com.scoretally.ui.matches.AddMatchScreen
 import com.scoretally.ui.matches.MatchDetailScreen
@@ -58,8 +59,8 @@ fun NavGraph(
                 onNavigateToAddGame = {
                     navController.navigate(Screen.AddGame.route)
                 },
-                onNavigateToGameDetail = { gameId ->
-                    navController.navigate(Screen.GameDetail.createRoute(gameId))
+                onNavigateToEditGame = { gameId ->
+                    navController.navigate(Screen.EditGame.createRoute(gameId))
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
@@ -85,6 +86,16 @@ fun NavGraph(
         composable(Screen.AddGame.route) {
             AddGameScreen(
                 onGameSaved = { navController.popBackStack() },
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.EditGame.route,
+            arguments = listOf(navArgument("gameId") { type = NavType.LongType })
+        ) {
+            EditGameScreen(
+                onGameUpdated = { navController.popBackStack() },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -172,7 +183,7 @@ fun PlaceholderScreen(
                 title = { Text(title) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.cd_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )

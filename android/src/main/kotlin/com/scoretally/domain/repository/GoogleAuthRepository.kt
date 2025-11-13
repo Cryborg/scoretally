@@ -37,7 +37,7 @@ class GoogleAuthRepository @Inject constructor(
 
     init {
         // Observer les changements d'état Firebase Auth
-        firebaseAuth.addAuthStateListener { auth ->
+        firebaseAuth.addAuthStateListener { _ ->
             _authState.value = getCurrentAuthState()
         }
     }

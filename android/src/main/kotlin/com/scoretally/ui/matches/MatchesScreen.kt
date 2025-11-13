@@ -1,12 +1,14 @@
 package com.scoretally.ui.matches
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -14,6 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,31 +64,59 @@ fun MatchesScreen(
                     ),
                     FABMenuItem(
                         label = stringResource(R.string.match_create_full),
-                        icon = Icons.Default.List,
+                        icon = Icons.AutoMirrored.Filled.List,
                         onClick = onNavigateToAddMatch
                     )
                 )
             )
         }
     ) { padding ->
-        if (matches.isEmpty()) {
-            EmptyState(
-                message = stringResource(R.string.matches_empty),
-                modifier = Modifier.padding(padding)
-            )
-        } else {
-            LazyColumn(
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background image with transparency
+            Image(
+                painter = painterResource(R.drawable.bg_matches),
+                contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(matches) { match ->
-                    MatchItem(
-                        match = match,
-                        onClick = { onNavigateToMatchDetail(match.id) }
+                    .alpha(0.3f),
+                contentScale = ContentScale.Crop
+            )
+
+            // Vignette overlay
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                MaterialTheme.colorScheme.background.copy(alpha = 0.7f)
+                            ),
+                            radius = 1200f
+                        )
                     )
+            )
+
+            // Content
+            if (matches.isEmpty()) {
+                EmptyState(
+                    message = stringResource(R.string.matches_empty),
+                    modifier = Modifier.padding(padding)
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(matches) { match ->
+                        MatchItem(
+                            match = match,
+                            onClick = { onNavigateToMatchDetail(match.id) }
+                        )
+                    }
                 }
             }
         }

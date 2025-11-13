@@ -19,6 +19,7 @@ data class AddGameUiState(
     val category: String = "",
     val description: String = "",
     val scoreIncrement: String = "1",
+    val allowNegativeScores: Boolean = true,
     val isSaving: Boolean = false,
     val isSaved: Boolean = false
 )
@@ -59,6 +60,10 @@ class AddGameViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(scoreIncrement = increment)
     }
 
+    fun onAllowNegativeScoresChange(allow: Boolean) {
+        _uiState.value = _uiState.value.copy(allowNegativeScores = allow)
+    }
+
     fun saveGame() {
         val state = _uiState.value
 
@@ -80,7 +85,8 @@ class AddGameViewModel @Inject constructor(
                     averageDuration = duration,
                     category = state.category,
                     description = state.description,
-                    scoreIncrement = scoreIncrement
+                    scoreIncrement = scoreIncrement,
+                    allowNegativeScores = state.allowNegativeScores
                 )
                 gameRepository.insertGame(game)
                 _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)

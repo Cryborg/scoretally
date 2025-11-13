@@ -13,3 +13,23 @@ val Pink40 = Color(0xFF7D5260)
 val ScoreTallyPrimary = Color(0xFF6750A4)
 val ScoreTallySecondary = Color(0xFF625B71)
 val ScoreTallyTertiary = Color(0xFF7D5260)
+
+// Cartoon Theme Colors - Vibrant and Fun! 🎨
+val CartoonOrange = Color(0xFFFF6B35)
+val CartoonYellow = Color(0xFFFFC145)
+val CartoonCyan = Color(0xFF00D9FF)
+val CartoonBlue = Color(0xFF4ECAFF)
+val CartoonPink = Color(0xFFFF6BB5)
+val CartoonPurple = Color(0xFFB565FF)
+val CartoonGreen = Color(0xFF6BFF9A)
+val CartoonLime = Color(0xFFCDFF6B)
+
+// Cartoon Background Colors
+val CartoonBgLight = Color(0xFFFFF9E5)
+val CartoonSurfaceLight = Color(0xFFFFFFFF)
+val CartoonBgContainer = Color(0xFFFFECB3)
+
+// Cartoon Dark Colors (for contrast)
+val CartoonBlueDark = Color(0xFF006B88)
+val CartoonOrangeDark = Color(0xFF8B3A1F)
+val CartoonPurpleDark = Color(0xFF5A2F80)

@@ -2,21 +2,21 @@ package com.scoretally.ui.matches
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -26,6 +26,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.PlayerScore
 import com.scoretally.ui.components.toComposeColor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,7 +47,7 @@ fun MatchDetailScreen(
                 title = { Text(uiState.matchDetails?.game?.name ?: "") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.cd_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -96,6 +102,51 @@ fun MatchDetailScreen(
 }
 
 @Composable
+fun RepeatableButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colors: ButtonColors = ButtonDefaults.filledTonalButtonColors(),
+    shape: androidx.compose.ui.graphics.Shape = MaterialTheme.shapes.small,
+    content: @Composable () -> Unit
+) {
+    var isPressed by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    var job: Job? by remember { mutableStateOf(null) }
+
+    Surface(
+        modifier = modifier
+            .pointerInput(enabled) {
+                awaitEachGesture {
+                    awaitFirstDown()
+                    if (enabled) {
+                        isPressed = true
+                        onClick()  // Premier click immédiat
+
+                        job = coroutineScope.launch {
+                            delay(500) // Délai avant la répétition
+                            while (isActive && isPressed) {
+                                onClick()
+                                delay(200) // 5 fois par seconde
+                            }
+                        }
+                    }
+
+                    waitForUpOrCancellation()
+                    isPressed = false
+                    job?.cancel()
+                }
+            },
+        shape = shape,
+        color = if (enabled) colors.containerColor else colors.disabledContainerColor
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            content()
+        }
+    }
+}
+
+@Composable
 fun PlayerScoreItem(
     playerScore: PlayerScore,
     onIncrement: () -> Unit,
@@ -120,21 +171,17 @@ fun PlayerScoreItem(
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(playerScore.player.preferredColor.toComposeColor()),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Default.Person,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-                Spacer(modifier = Modifier.width(16.dp))
+                        .width(4.dp)
+                        .height(32.dp)
+                        .background(
+                            color = playerScore.player.preferredColor.toComposeColor(),
+                            shape = MaterialTheme.shapes.small
+                        )
+                )
+                Spacer(modifier = Modifier.width(12.dp))
                 Text(
                     text = playerScore.player.name,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
 
@@ -142,8 +189,9 @@ fun PlayerScoreItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                FilledTonalIconButton(
+                RepeatableButton(
                     onClick = onDecrement,
+                    modifier = Modifier.size(40.dp),
                     enabled = playerScore.matchPlayer.score > 0
                 ) {
                     Text(
@@ -158,20 +206,23 @@ fun PlayerScoreItem(
 
                 Surface(
                     modifier = Modifier
-                        .widthIn(min = 80.dp)
+                        .widthIn(min = 64.dp)
                         .clickable { showEditDialog = true },
                     shape = MaterialTheme.shapes.medium,
                     color = MaterialTheme.colorScheme.secondaryContainer
                 ) {
                     Text(
                         text = playerScore.matchPlayer.score.toString(),
-                        style = MaterialTheme.typography.displayMedium,
+                        style = MaterialTheme.typography.headlineMedium,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp)
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp)
                     )
                 }
 
-                FilledTonalIconButton(onClick = onIncrement) {
+                RepeatableButton(
+                    onClick = onIncrement,
+                    modifier = Modifier.size(40.dp)
+                ) {
                     Icon(
                         Icons.Default.Add,
                         contentDescription = stringResource(R.string.cd_increment),

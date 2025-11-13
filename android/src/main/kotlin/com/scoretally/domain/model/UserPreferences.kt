@@ -24,7 +24,8 @@ enum class AppLanguage(val code: String) {
 enum class AppTheme {
     SYSTEM,
     LIGHT,
-    DARK;
+    DARK,
+    CARTOON;
 
     companion object {
         fun fromName(name: String): AppTheme =

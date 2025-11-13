@@ -5,7 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
@@ -49,7 +49,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.cd_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
                     }
                 }
             )
@@ -220,6 +220,7 @@ fun getThemeName(theme: AppTheme): String {
         AppTheme.SYSTEM -> stringResource(R.string.settings_theme_system)
         AppTheme.LIGHT -> stringResource(R.string.settings_theme_light)
         AppTheme.DARK -> stringResource(R.string.settings_theme_dark)
+        AppTheme.CARTOON -> stringResource(R.string.settings_theme_cartoon)
     }
 }
 

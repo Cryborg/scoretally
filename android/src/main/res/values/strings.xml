@@ -60,6 +60,10 @@
     <string name="add_game_description_label">Description</string>
     <string name="add_game_score_increment_label">Score increment</string>
 
+    <!-- Edit Game -->
+    <string name="edit_game_title">Edit Game</string>
+    <string name="update">Update</string>
+
     <!-- Players -->
     <string name="players_title">My Players</string>
     <string name="players_empty">No players yet.\nTap + to add one!</string>
@@ -94,6 +98,7 @@
     <string name="settings_theme_system">System default</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_cartoon">Cartoon</string>
 
     <!-- Content Descriptions -->
     <string name="cd_add">Add</string>

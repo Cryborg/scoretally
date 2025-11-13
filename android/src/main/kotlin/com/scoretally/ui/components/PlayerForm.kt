@@ -9,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -31,7 +32,7 @@ fun PlayerForm(
     modifier: Modifier = Modifier,
     autoFocus: Boolean = true
 ) {
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() }
 
     if (autoFocus) {
         LaunchedEffect(Unit) {
