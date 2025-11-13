@@ -12,7 +12,20 @@
           "package_name": "com.scoretally"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "527547605314-58sicp8t8fhd8hakge5307nfkv586l8m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scoretally",
+            "certificate_hash": "b731323501fc7e4c8f64d65ac1d3eac24d92f74c"
+          }
+        },
+        {
+          "client_id": "527547605314-3fdljf96sgfkblcgpjihnjp2ji0phvn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAPr2AOiakh-HYkaV-NJ6VOwAYkSFpjtJA"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527547605314-3fdljf96sgfkblcgpjihnjp2ji0phvn1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

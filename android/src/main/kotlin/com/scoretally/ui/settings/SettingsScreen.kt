@@ -1,5 +1,7 @@
 package com.scoretally.ui.settings
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -24,6 +26,20 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val userPreferences by viewModel.userPreferences.collectAsStateWithLifecycle()
+    val authState by viewModel.authState.collectAsStateWithLifecycle()
+    val signInError by viewModel.signInError.collectAsStateWithLifecycle()
+
+    val signInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        viewModel.handleSignInResult(result.data)
+    }
+
+    LaunchedEffect(signInError) {
+        signInError?.let {
+            // L'erreur sera affichée dans le Snackbar ou dans l'UI
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -52,6 +68,12 @@ fun SettingsScreen(
             ThemeSelector(
                 currentTheme = userPreferences.theme,
                 onThemeSelected = viewModel::updateTheme
+            )
+
+            GoogleSignInSection(
+                authState = authState,
+                onSignInClick = { signInLauncher.launch(viewModel.getSignInIntent()) },
+                onSignOutClick = viewModel::signOut
             )
         }
     }
@@ -187,5 +209,71 @@ fun getThemeName(theme: AppTheme): String {
         AppTheme.SYSTEM -> stringResource(R.string.settings_theme_system)
         AppTheme.LIGHT -> stringResource(R.string.settings_theme_light)
         AppTheme.DARK -> stringResource(R.string.settings_theme_dark)
+    }
+}
+
+@Composable
+fun GoogleSignInSection(
+    authState: com.scoretally.domain.model.AuthState,
+    onSignInClick: () -> Unit,
+    onSignOutClick: () -> Unit
+) {
+    Column {
+        Text(
+            text = "Google Sync",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if (authState.isSignedIn) {
+                    // Utilisateur connecté
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            text = authState.displayName ?: authState.userEmail ?: "User",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        if (authState.displayName != null && authState.userEmail != null) {
+                            Text(
+                                text = authState.userEmail,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    Button(
+                        onClick = onSignOutClick,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Text("Se déconnecter")
+                    }
+                } else {
+                    // Utilisateur non connecté
+                    Text(
+                        text = "Synchronisez vos données entre plusieurs appareils",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Button(
+                        onClick = onSignInClick,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Se connecter avec Google")
+                    }
+                }
+            }
+        }
     }
 }
