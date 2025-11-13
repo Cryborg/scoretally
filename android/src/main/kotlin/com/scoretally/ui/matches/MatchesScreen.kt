@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.Match
+import com.scoretally.ui.components.EmptyState
 import com.scoretally.ui.components.ExpandableFAB
 import com.scoretally.ui.components.FABMenuItem
 import java.time.format.DateTimeFormatter
@@ -64,18 +65,10 @@ fun MatchesScreen(
         }
     ) { padding ->
         if (matches.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    stringResource(R.string.matches_empty),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            EmptyState(
+                message = stringResource(R.string.matches_empty),
+                modifier = Modifier.padding(padding)
+            )
         } else {
             LazyColumn(
                 modifier = Modifier

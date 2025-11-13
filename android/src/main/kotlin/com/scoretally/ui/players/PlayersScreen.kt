@@ -23,6 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.Player
+import com.scoretally.ui.components.EmptyState
+import com.scoretally.ui.components.toComposeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,18 +54,10 @@ fun PlayersScreen(
         }
     ) { padding ->
         if (players.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    stringResource(R.string.players_empty),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
+            EmptyState(
+                message = stringResource(R.string.players_empty),
+                modifier = Modifier.padding(padding)
+            )
         } else {
             LazyColumn(
                 modifier = Modifier
@@ -101,7 +95,7 @@ fun PlayerItem(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(parseColor(player.preferredColor)),
+                    .background(player.preferredColor.toComposeColor()),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -116,13 +110,5 @@ fun PlayerItem(
                 style = MaterialTheme.typography.titleMedium
             )
         }
-    }
-}
-
-fun parseColor(colorString: String): Color {
-    return try {
-        Color(android.graphics.Color.parseColor(colorString))
-    } catch (e: IllegalArgumentException) {
-        Color(0xFF6750A4)
     }
 }
