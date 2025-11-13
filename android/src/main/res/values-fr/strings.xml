@@ -33,6 +33,9 @@
     <string name="match_game_label">Jeu n°%1$d</string>
     <string name="match_duration_label">Durée : %1$d min</string>
 
+    <!-- Quick Match -->
+    <string name="quick_match_empty">Ajoutez des joueurs pour commencer à compter les scores !</string>
+
     <!-- Add Match -->
     <string name="add_match_title">Créer une partie</string>
     <string name="add_match_game_label">Jeu *</string>

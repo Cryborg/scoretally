@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +29,7 @@ import com.scoretally.domain.model.Player
 fun PlayersScreen(
     onNavigateToAddPlayer: () -> Unit,
     onNavigateToPlayerDetail: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     viewModel: PlayersViewModel = hiltViewModel()
 ) {
     val players by viewModel.players.collectAsStateWithLifecycle()
@@ -35,7 +37,12 @@ fun PlayersScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.players_title)) }
+                title = { Text(stringResource(R.string.players_title)) },
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_title))
+                    }
+                }
             )
         },
         floatingActionButton = {

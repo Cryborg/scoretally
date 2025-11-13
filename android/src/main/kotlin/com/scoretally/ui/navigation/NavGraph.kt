@@ -20,7 +20,9 @@ import com.scoretally.ui.games.GamesScreen
 import com.scoretally.ui.matches.AddMatchScreen
 import com.scoretally.ui.matches.MatchDetailScreen
 import com.scoretally.ui.matches.MatchesScreen
+import com.scoretally.ui.matches.QuickMatchScreen
 import com.scoretally.ui.players.AddPlayerScreen
+import com.scoretally.ui.players.EditPlayerScreen
 import com.scoretally.ui.players.PlayersScreen
 import com.scoretally.ui.settings.SettingsScreen
 
@@ -40,11 +42,13 @@ fun NavGraph(
                     navController.navigate(Screen.AddMatch.route)
                 },
                 onNavigateToQuickMatch = {
-                    // TODO: Navigate to QuickMatch screen
-                    navController.navigate(Screen.AddMatch.route) // Temporary
+                    navController.navigate(Screen.QuickMatch.route)
                 },
                 onNavigateToMatchDetail = { matchId ->
                     navController.navigate(Screen.MatchDetail.createRoute(matchId))
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
                 }
             )
         }
@@ -56,6 +60,9 @@ fun NavGraph(
                 },
                 onNavigateToGameDetail = { gameId ->
                     navController.navigate(Screen.GameDetail.createRoute(gameId))
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
                 }
             )
         }
@@ -66,7 +73,10 @@ fun NavGraph(
                     navController.navigate(Screen.AddPlayer.route)
                 },
                 onNavigateToPlayerDetail = { playerId ->
-                    navController.navigate(Screen.PlayerDetail.createRoute(playerId))
+                    navController.navigate(Screen.EditPlayer.createRoute(playerId))
+                },
+                onNavigateToSettings = {
+                    navController.navigate(Screen.Settings.route)
                 }
             )
         }
@@ -97,6 +107,12 @@ fun NavGraph(
             )
         }
 
+        composable(Screen.QuickMatch.route) {
+            QuickMatchScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
         composable(
             route = Screen.GameDetail.route,
             arguments = listOf(navArgument("gameId") { type = NavType.LongType })
@@ -113,6 +129,16 @@ fun NavGraph(
         ) {
             PlaceholderScreen(
                 title = stringResource(R.string.player_detail),
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(
+            route = Screen.EditPlayer.route,
+            arguments = listOf(navArgument("playerId") { type = NavType.LongType })
+        ) {
+            EditPlayerScreen(
+                onPlayerSaved = { navController.popBackStack() },
                 onBack = { navController.popBackStack() }
             )
         }

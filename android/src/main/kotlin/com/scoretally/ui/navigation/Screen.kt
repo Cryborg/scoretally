@@ -21,6 +21,7 @@ sealed class Screen(val route: String) {
         fun createRoute(playerId: Long) = "edit_player/$playerId"
     }
     object AddMatch : Screen("add_match")
+    object QuickMatch : Screen("quick_match")
     object MatchDetail : Screen("match/{matchId}") {
         fun createRoute(matchId: Long) = "match/$matchId"
     }

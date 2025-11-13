@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +30,7 @@ fun MatchesScreen(
     onNavigateToAddMatch: () -> Unit,
     onNavigateToQuickMatch: () -> Unit,
     onNavigateToMatchDetail: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     viewModel: MatchesViewModel = hiltViewModel()
 ) {
     val matches by viewModel.matches.collectAsStateWithLifecycle()
@@ -36,7 +38,12 @@ fun MatchesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.matches_title)) }
+                title = { Text(stringResource(R.string.matches_title)) },
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_title))
+                    }
+                }
             )
         },
         floatingActionButton = {

@@ -33,6 +33,9 @@
     <string name="match_game_label">Game #%1$d</string>
     <string name="match_duration_label">Duration: %1$d min</string>
 
+    <!-- Quick Match -->
+    <string name="quick_match_empty">Add players to start counting scores!</string>
+
     <!-- Add Match -->
     <string name="add_match_title">Create a Match</string>
     <string name="add_match_game_label">Game *</string>

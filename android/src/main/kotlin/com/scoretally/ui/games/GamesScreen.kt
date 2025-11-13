@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import com.scoretally.domain.model.Game
 fun GamesScreen(
     onNavigateToAddGame: () -> Unit,
     onNavigateToGameDetail: (Long) -> Unit,
+    onNavigateToSettings: () -> Unit,
     viewModel: GamesViewModel = hiltViewModel()
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
@@ -31,7 +33,12 @@ fun GamesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.games_title)) }
+                title = { Text(stringResource(R.string.games_title)) },
+                actions = {
+                    IconButton(onClick = onNavigateToSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_title))
+                    }
+                }
             )
         },
         floatingActionButton = {
