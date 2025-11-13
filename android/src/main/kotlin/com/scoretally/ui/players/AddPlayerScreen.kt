@@ -1,5 +1,6 @@
 package com.scoretally.ui.players
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -47,9 +48,7 @@ fun AddPlayerScreen(
             isSaving = uiState.isSaving,
             canSave = uiState.name.isNotBlank(),
             saveButtonText = stringResource(R.string.save),
-            modifier = Modifier.then(
-                androidx.compose.foundation.layout.padding(padding)
-            )
+            modifier = Modifier.padding(padding)
         )
     }
 }

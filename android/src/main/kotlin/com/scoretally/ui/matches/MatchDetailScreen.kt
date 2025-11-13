@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.PlayerScore
-import com.scoretally.ui.players.parseColor
+import com.scoretally.ui.components.toComposeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,7 +122,7 @@ fun PlayerScoreItem(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(parseColor(playerScore.player.preferredColor)),
+                        .background(playerScore.player.preferredColor.toComposeColor()),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
