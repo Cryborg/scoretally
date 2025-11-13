@@ -3,7 +3,6 @@ plugins {
     kotlin("android")
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
 }
 
 android {
@@ -105,3 +104,7 @@ dependencies {
     // Core library desugaring (pour java.time sur API < 26)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
+
+// IMPORTANT : Le plugin google-services doit être appliqué EN DERNIER
+// pour qu'il génère correctement les ressources depuis google-services.json
+apply(plugin = "com.google.gms.google-services")
