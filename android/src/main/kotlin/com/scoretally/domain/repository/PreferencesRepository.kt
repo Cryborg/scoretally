@@ -9,4 +9,6 @@ interface PreferencesRepository {
     val userPreferences: Flow<UserPreferences>
     suspend fun updateLanguage(language: AppLanguage)
     suspend fun updateTheme(theme: AppTheme)
+    suspend fun updateAutoSyncEnabled(enabled: Boolean)
+    suspend fun updateLastSyncTimestamp(timestamp: Long)
 }

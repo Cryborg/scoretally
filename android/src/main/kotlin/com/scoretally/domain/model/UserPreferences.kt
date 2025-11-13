@@ -2,7 +2,9 @@ package com.scoretally.domain.model
 
 data class UserPreferences(
     val language: AppLanguage = AppLanguage.SYSTEM,
-    val theme: AppTheme = AppTheme.SYSTEM
+    val theme: AppTheme = AppTheme.SYSTEM,
+    val autoSyncEnabled: Boolean = true,
+    val lastSyncTimestamp: Long = 0
 )
 
 enum class AppLanguage(val code: String) {
