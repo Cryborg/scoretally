@@ -24,16 +24,21 @@
             </intent-filter>
         </activity>
 
-        <!-- Disable default WorkManager initialization -->
+        <!-- App Startup Initialization -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
             tools:node="merge">
+            <!-- Disable default WorkManager initialization -->
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+            <!-- Initialize predefined games -->
+            <meta-data
+                android:name="com.scoretally.PredefinedGamesInitializer"
+                android:value="androidx.startup" />
         </provider>
     </application>
 

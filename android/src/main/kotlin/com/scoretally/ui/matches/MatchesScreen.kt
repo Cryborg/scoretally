@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -26,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
-import com.scoretally.domain.model.Match
+import com.scoretally.domain.model.MatchListItem
 import com.scoretally.ui.components.EmptyState
 import com.scoretally.ui.components.ExpandableFAB
 import com.scoretally.ui.components.FABMenuItem
@@ -39,6 +40,7 @@ fun MatchesScreen(
     onNavigateToQuickMatch: () -> Unit,
     onNavigateToMatchDetail: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToTools: () -> Unit,
     viewModel: MatchesViewModel = hiltViewModel()
 ) {
     val matches by viewModel.matches.collectAsStateWithLifecycle()
@@ -48,6 +50,9 @@ fun MatchesScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.matches_title)) },
                 actions = {
+                    IconButton(onClick = onNavigateToTools) {
+                        Icon(Icons.Default.Build, contentDescription = stringResource(R.string.tools_title))
+                    }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_title))
                     }
@@ -111,10 +116,10 @@ fun MatchesScreen(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(matches) { match ->
+                    items(matches) { matchListItem ->
                         MatchItem(
-                            match = match,
-                            onClick = { onNavigateToMatchDetail(match.id) }
+                            matchListItem = matchListItem,
+                            onClick = { onNavigateToMatchDetail(matchListItem.match.id) }
                         )
                     }
                 }
@@ -125,10 +130,11 @@ fun MatchesScreen(
 
 @Composable
 fun MatchItem(
-    match: Match,
+    matchListItem: MatchListItem,
     onClick: () -> Unit
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    val match = matchListItem.match
 
     Card(
         modifier = Modifier
@@ -144,7 +150,7 @@ fun MatchItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(R.string.match_game_label, match.gameId),
+                    text = matchListItem.gameName,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Surface(
@@ -170,6 +176,15 @@ fun MatchItem(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+            if (matchListItem.playerNames.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = matchListItem.playerNames.joinToString(", "),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1
+                )
+            }
             match.duration?.let { duration ->
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

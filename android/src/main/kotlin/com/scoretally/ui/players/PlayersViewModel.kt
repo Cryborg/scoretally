@@ -8,11 +8,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    playerRepository: PlayerRepository
+    private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
     val players: StateFlow<List<Player>> = playerRepository.getAllPlayers()
@@ -21,4 +22,10 @@ class PlayersViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
+
+    fun deletePlayer(playerId: Long) {
+        viewModelScope.launch {
+            playerRepository.deletePlayerById(playerId)
+        }
+    }
 }

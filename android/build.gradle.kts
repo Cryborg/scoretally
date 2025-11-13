@@ -101,6 +101,9 @@ dependencies {
     implementation("androidx.hilt:hilt-work:1.1.0")
     ksp("androidx.hilt:hilt-compiler:1.1.0")
 
+    // App Startup pour initialisation
+    implementation("androidx.startup:startup-runtime:1.1.1")
+
     // Core library desugaring (pour java.time sur API < 26)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

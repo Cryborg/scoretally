@@ -38,6 +38,12 @@ class SettingsViewModel @Inject constructor(
     private val _signInError = MutableStateFlow<String?>(null)
     val signInError: StateFlow<String?> = _signInError.asStateFlow()
 
+    private val _syncError = MutableStateFlow<String?>(null)
+    val syncError: StateFlow<String?> = _syncError.asStateFlow()
+
+    private val _isSyncing = MutableStateFlow(false)
+    val isSyncing: StateFlow<Boolean> = _isSyncing.asStateFlow()
+
     fun updateLanguage(language: AppLanguage) {
         viewModelScope.launch {
             preferencesRepository.updateLanguage(language)
@@ -85,7 +91,21 @@ class SettingsViewModel @Inject constructor(
 
     fun triggerManualSync() {
         viewModelScope.launch {
-            syncManager.triggerManualSync()
+            _isSyncing.value = true
+            _syncError.value = null
+            try {
+                syncManager.triggerManualSync()
+                // Attendre un peu pour que le worker ait le temps de s'exécuter
+                kotlinx.coroutines.delay(2000)
+                _isSyncing.value = false
+            } catch (e: Exception) {
+                _syncError.value = e.message
+                _isSyncing.value = false
+            }
         }
+    }
+
+    fun clearSyncError() {
+        _syncError.value = null
     }
 }

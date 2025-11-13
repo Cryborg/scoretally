@@ -15,6 +15,8 @@ data class GameDto(
     val rating: Float = 0f,
     val notes: String = "",
     val scoreIncrement: Int = 1,
+    val diceCount: Int = 1,
+    val diceFaces: Int = 6,
     val lastModifiedAt: Long = 0,
     val isDeleted: Boolean = false
 )
@@ -31,6 +33,8 @@ fun GameDto.toDomain(localId: Long = 0) = Game(
     rating = rating,
     notes = notes,
     scoreIncrement = scoreIncrement,
+    diceCount = diceCount,
+    diceFaces = diceFaces,
     syncId = syncId,
     lastModifiedAt = lastModifiedAt,
     isDeleted = isDeleted
@@ -48,6 +52,8 @@ fun Game.toDto() = GameDto(
     rating = rating,
     notes = notes,
     scoreIncrement = scoreIncrement,
+    diceCount = diceCount,
+    diceFaces = diceFaces,
     lastModifiedAt = lastModifiedAt,
     isDeleted = isDeleted
 )
@@ -66,6 +72,8 @@ fun DocumentSnapshot.toGameDto(): GameDto? {
             rating = getDouble("rating")?.toFloat() ?: 0f,
             notes = getString("notes") ?: "",
             scoreIncrement = getLong("scoreIncrement")?.toInt() ?: 1,
+            diceCount = getLong("diceCount")?.toInt() ?: 1,
+            diceFaces = getLong("diceFaces")?.toInt() ?: 6,
             lastModifiedAt = getLong("lastModifiedAt") ?: 0,
             isDeleted = getBoolean("isDeleted") ?: false
         )

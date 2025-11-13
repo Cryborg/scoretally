@@ -4,12 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -30,7 +26,8 @@ fun PlayerForm(
     canSave: Boolean,
     saveButtonText: String,
     modifier: Modifier = Modifier,
-    autoFocus: Boolean = true
+    autoFocus: Boolean = true,
+    nameError: String? = null
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -58,7 +55,12 @@ fun PlayerForm(
             enabled = !isSaving,
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
-            )
+            ),
+            singleLine = true,
+            isError = nameError != null,
+            supportingText = if (nameError != null) {
+                { Text(nameError) }
+            } else null
         )
 
         Text(

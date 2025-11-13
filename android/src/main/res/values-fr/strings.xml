@@ -20,6 +20,7 @@
     <string name="nav_matches">Parties</string>
     <string name="nav_games">Jeux</string>
     <string name="nav_players">Joueurs</string>
+    <string name="nav_tools">Outils</string>
 
     <!-- Matches -->
     <string name="matches_title">Mes Parties</string>
@@ -59,6 +60,8 @@
     <string name="add_game_category_label">Catégorie</string>
     <string name="add_game_description_label">Description</string>
     <string name="add_game_score_increment_label">Incrément de score</string>
+    <string name="add_game_dice_count_label">Nombre de dés</string>
+    <string name="add_game_dice_faces_label">Faces des dés</string>
 
     <!-- Edit Game -->
     <string name="edit_game_title">Modifier un jeu</string>
@@ -100,10 +103,37 @@
     <string name="settings_theme_dark">Sombre</string>
     <string name="settings_theme_cartoon">Cartoon</string>
 
+    <!-- Tools -->
+    <string name="tools_title">Outils</string>
+    <string name="tools_dice_roller">Lancer de dés</string>
+    <string name="tools_first_player">Qui commence ?</string>
+    <string name="dice_roll">Lancer</string>
+    <string name="dice_number">Nombre de dés</string>
+    <string name="dice_faces">Faces</string>
+    <string name="dice_result">Résultat</string>
+    <string name="dice_total">Total</string>
+    <string name="first_player_title">Qui commence ?</string>
+    <string name="first_player_select">Sélectionner les joueurs</string>
+    <string name="first_player_draw">Tirer au sort</string>
+    <string name="first_player_result">%s commence !</string>
+
+    <!-- Game Dice -->
+    <string name="game_has_dice_label">Utiliser des dés</string>
+    <string name="game_has_dice_description">Activer le lancer de dés pour ce jeu</string>
+
+    <!-- Delete Player -->
+    <string name="delete_player_title">Supprimer le joueur ?</string>
+    <string name="delete_player_message">Cette action supprimera définitivement ce joueur. Cela ne peut pas être annulé.</string>
+
+    <!-- Validation -->
+    <string name="error_player_name_exists">Un joueur avec ce nom existe déjà</string>
+
     <!-- Content Descriptions -->
     <string name="cd_add">Ajouter</string>
     <string name="cd_back">Retour</string>
     <string name="cd_increment">Augmenter</string>
     <string name="cd_decrement">Diminuer</string>
     <string name="cd_settings">Paramètres</string>
+    <string name="cd_dice">Dés</string>
+    <string name="cd_first_player">Qui commence</string>
 </resources>

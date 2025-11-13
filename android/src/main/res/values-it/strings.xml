@@ -20,6 +20,7 @@
     <string name="nav_matches">Partite</string>
     <string name="nav_games">Giochi</string>
     <string name="nav_players">Giocatori</string>
+    <string name="nav_tools">Strumenti</string>
 
     <!-- Matches -->
     <string name="matches_title">Le mie partite</string>
@@ -59,6 +60,8 @@
     <string name="add_game_category_label">Categoria</string>
     <string name="add_game_description_label">Descrizione</string>
     <string name="add_game_score_increment_label">Incremento punteggio</string>
+    <string name="add_game_dice_count_label">Numero di dadi</string>
+    <string name="add_game_dice_faces_label">Facce dei dadi</string>
 
     <!-- Edit Game -->
     <string name="edit_game_title">Modifica gioco</string>
@@ -100,10 +103,33 @@
     <string name="settings_theme_dark">Scuro</string>
     <string name="settings_theme_cartoon">Cartoon</string>
 
+    <!-- Tools -->
+    <string name="tools_title">Strumenti</string>
+    <string name="tools_dice_roller">Lancio dadi</string>
+    <string name="tools_first_player">Chi inizia?</string>
+    <string name="dice_roll">Lancia</string>
+    <string name="dice_number">Numero di dadi</string>
+    <string name="dice_faces">Facce</string>
+    <string name="dice_result">Risultato</string>
+    <string name="dice_total">Totale</string>
+    <string name="first_player_title">Chi inizia?</string>
+    <string name="first_player_select">Seleziona giocatori</string>
+    <string name="first_player_draw">Sorteggia</string>
+    <string name="first_player_result">%s inizia!</string>
+
+    <!-- Delete Player -->
+    <string name="delete_player_title">Eliminare il giocatore?</string>
+    <string name="delete_player_message">Questa azione eliminerà definitivamente questo giocatore. Questa azione non può essere annullata.</string>
+
+    <!-- Validation -->
+    <string name="error_player_name_exists">Esiste già un giocatore con questo nome</string>
+
     <!-- Content Descriptions -->
     <string name="cd_add">Aggiungi</string>
     <string name="cd_back">Indietro</string>
     <string name="cd_increment">Aumenta</string>
     <string name="cd_decrement">Diminuisci</string>
     <string name="cd_settings">Impostazioni</string>
+    <string name="cd_dice">Dadi</string>
+    <string name="cd_first_player">Chi inizia</string>
 </resources>

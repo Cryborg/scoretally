@@ -20,6 +20,7 @@
     <string name="nav_matches">Partien</string>
     <string name="nav_games">Spiele</string>
     <string name="nav_players">Spieler</string>
+    <string name="nav_tools">Werkzeuge</string>
 
     <!-- Matches -->
     <string name="matches_title">Meine Partien</string>
@@ -59,6 +60,8 @@
     <string name="add_game_category_label">Kategorie</string>
     <string name="add_game_description_label">Beschreibung</string>
     <string name="add_game_score_increment_label">Punkteschritt</string>
+    <string name="add_game_dice_count_label">Anzahl der Würfel</string>
+    <string name="add_game_dice_faces_label">Würfelseiten</string>
 
     <!-- Edit Game -->
     <string name="edit_game_title">Spiel bearbeiten</string>
@@ -100,10 +103,33 @@
     <string name="settings_theme_dark">Dunkel</string>
     <string name="settings_theme_cartoon">Cartoon</string>
 
+    <!-- Tools -->
+    <string name="tools_title">Werkzeuge</string>
+    <string name="tools_dice_roller">Würfelwerfer</string>
+    <string name="tools_first_player">Wer fängt an?</string>
+    <string name="dice_roll">Würfeln</string>
+    <string name="dice_number">Anzahl der Würfel</string>
+    <string name="dice_faces">Seiten</string>
+    <string name="dice_result">Ergebnis</string>
+    <string name="dice_total">Gesamt</string>
+    <string name="first_player_title">Wer fängt an?</string>
+    <string name="first_player_select">Spieler auswählen</string>
+    <string name="first_player_draw">Auslosen</string>
+    <string name="first_player_result">%s fängt an!</string>
+
+    <!-- Delete Player -->
+    <string name="delete_player_title">Spieler löschen?</string>
+    <string name="delete_player_message">Dadurch wird dieser Spieler dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+
+    <!-- Validation -->
+    <string name="error_player_name_exists">Ein Spieler mit diesem Namen existiert bereits</string>
+
     <!-- Content Descriptions -->
     <string name="cd_add">Hinzufügen</string>
     <string name="cd_back">Zurück</string>
     <string name="cd_increment">Erhöhen</string>
     <string name="cd_decrement">Verringern</string>
     <string name="cd_settings">Einstellungen</string>
+    <string name="cd_dice">Würfel</string>
+    <string name="cd_first_player">Wer fängt an</string>
 </resources>

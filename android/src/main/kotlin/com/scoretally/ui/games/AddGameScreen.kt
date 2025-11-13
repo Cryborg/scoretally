@@ -54,13 +54,20 @@ fun AddGameScreen(
             onDescriptionChange = viewModel::onDescriptionChange,
             scoreIncrement = uiState.scoreIncrement,
             onScoreIncrementChange = viewModel::onScoreIncrementChange,
+            hasDice = uiState.hasDice,
+            onHasDiceChange = viewModel::onHasDiceChange,
+            diceCount = uiState.diceCount,
+            onDiceCountChange = viewModel::onDiceCountChange,
+            diceFaces = uiState.diceFaces,
+            onDiceFacesChange = viewModel::onDiceFacesChange,
             allowNegativeScores = uiState.allowNegativeScores,
             onAllowNegativeScoresChange = viewModel::onAllowNegativeScoresChange,
             onSave = viewModel::saveGame,
             isSaving = uiState.isSaving,
             canSave = uiState.name.isNotBlank(),
             saveButtonText = stringResource(R.string.save),
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
+            isPredefined = false
         )
     }
 }

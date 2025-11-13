@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -34,6 +35,7 @@ fun GamesScreen(
     onNavigateToAddGame: () -> Unit,
     onNavigateToEditGame: (Long) -> Unit,
     onNavigateToSettings: () -> Unit,
+    onNavigateToTools: () -> Unit,
     viewModel: GamesViewModel = hiltViewModel()
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
@@ -43,6 +45,9 @@ fun GamesScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.games_title)) },
                 actions = {
+                    IconButton(onClick = onNavigateToTools) {
+                        Icon(Icons.Default.Build, contentDescription = stringResource(R.string.tools_title))
+                    }
                     IconButton(onClick = onNavigateToSettings) {
                         Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings_title))
                     }
@@ -98,7 +103,11 @@ fun GamesScreen(
                     items(games) { game ->
                         GameItem(
                             game = game,
-                            onClick = { onNavigateToEditGame(game.id) }
+                            onClick = {
+                                if (!game.isPredefined) {
+                                    onNavigateToEditGame(game.id)
+                                }
+                            }
                         )
                     }
                 }
@@ -112,18 +121,54 @@ fun GameItem(
     game: Game,
     onClick: () -> Unit
 ) {
+    val isClickable = !game.isPredefined && !game.isComingSoon
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clickable(enabled = isClickable, onClick = onClick),
+        colors = if (game.isComingSoon) CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        ) else CardDefaults.cardColors()
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .alpha(if (game.isComingSoon) 0.6f else 1f)
         ) {
-            Text(
-                text = game.name,
-                style = MaterialTheme.typography.titleMedium
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = game.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.weight(1f)
+                )
+                if (game.isComingSoon) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Text(
+                            text = "Bientôt",
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                } else if (game.isPredefined) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Text(
+                            text = "Jeu par défaut",
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+            }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = stringResource(R.string.game_players_range, game.minPlayers, game.maxPlayers, game.averageDuration),

@@ -58,3 +58,28 @@ fun Match.toEntity() = MatchEntity(
     lastModifiedAt = lastModifiedAt,
     isDeleted = isDeleted
 )
+
+data class MatchWithGameNameEntity(
+    val id: Long,
+    val gameId: Long,
+    val dateTimestamp: Long,
+    val duration: Int?,
+    val notes: String,
+    val isCompleted: Boolean,
+    val syncId: String,
+    val lastModifiedAt: Long,
+    val isDeleted: Boolean,
+    val gameName: String
+)
+
+fun MatchWithGameNameEntity.toDomain() = Match(
+    id = id,
+    gameId = gameId,
+    date = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimestamp), ZoneId.systemDefault()),
+    duration = duration,
+    notes = notes,
+    isCompleted = isCompleted,
+    syncId = syncId,
+    lastModifiedAt = lastModifiedAt,
+    isDeleted = isDeleted
+)

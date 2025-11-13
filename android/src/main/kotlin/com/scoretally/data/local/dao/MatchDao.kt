@@ -2,12 +2,21 @@ package com.scoretally.data.local.dao
 
 import androidx.room.*
 import com.scoretally.data.local.entity.MatchEntity
+import com.scoretally.data.local.entity.MatchWithGameNameEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MatchDao {
     @Query("SELECT * FROM matches ORDER BY dateTimestamp DESC")
     fun getAllMatches(): Flow<List<MatchEntity>>
+
+    @Query("""
+        SELECT m.*, g.name as gameName
+        FROM matches m
+        INNER JOIN games g ON m.gameId = g.id
+        ORDER BY m.dateTimestamp DESC
+    """)
+    fun getAllMatchesWithGameName(): Flow<List<MatchWithGameNameEntity>>
 
     @Query("SELECT * FROM matches WHERE id = :matchId")
     suspend fun getMatchById(matchId: Long): MatchEntity?

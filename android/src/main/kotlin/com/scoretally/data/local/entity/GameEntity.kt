@@ -3,6 +3,7 @@ package com.scoretally.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.scoretally.domain.model.Game
+import com.scoretally.domain.model.GridType
 import java.util.UUID
 
 @Entity(tableName = "games")
@@ -20,6 +21,12 @@ data class GameEntity(
     val notes: String = "",
     val scoreIncrement: Int = 1,
     val allowNegativeScores: Boolean = true,
+    val gridType: String = GridType.STANDARD.name,
+    val hasDice: Boolean = false,
+    val diceCount: Int = 1,
+    val diceFaces: Int = 6,
+    val isPredefined: Boolean = false,
+    val isComingSoon: Boolean = false,
     val syncId: String = UUID.randomUUID().toString(),
     val lastModifiedAt: Long = System.currentTimeMillis(),
     val isDeleted: Boolean = false
@@ -38,6 +45,12 @@ fun GameEntity.toDomain() = Game(
     notes = notes,
     scoreIncrement = scoreIncrement,
     allowNegativeScores = allowNegativeScores,
+    gridType = GridType.fromString(gridType),
+    hasDice = hasDice,
+    diceCount = diceCount,
+    diceFaces = diceFaces,
+    isPredefined = isPredefined,
+    isComingSoon = isComingSoon,
     syncId = syncId,
     lastModifiedAt = lastModifiedAt,
     isDeleted = isDeleted
@@ -56,6 +69,12 @@ fun Game.toEntity() = GameEntity(
     notes = notes,
     scoreIncrement = scoreIncrement,
     allowNegativeScores = allowNegativeScores,
+    gridType = gridType.name,
+    hasDice = hasDice,
+    diceCount = diceCount,
+    diceFaces = diceFaces,
+    isPredefined = isPredefined,
+    isComingSoon = isComingSoon,
     syncId = syncId,
     lastModifiedAt = lastModifiedAt,
     isDeleted = isDeleted

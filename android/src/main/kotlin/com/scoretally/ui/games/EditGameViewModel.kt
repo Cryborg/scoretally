@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.scoretally.domain.model.Game
+import com.scoretally.domain.model.GridType
 import com.scoretally.domain.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,12 @@ data class EditGameUiState(
     val category: String = "",
     val description: String = "",
     val scoreIncrement: String = "1",
+    val hasDice: Boolean = false,
+    val diceCount: String = "1",
+    val diceFaces: String = "6",
     val allowNegativeScores: Boolean = true,
+    val gridType: GridType = GridType.STANDARD,
+    val isPredefined: Boolean = false,
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val isSaved: Boolean = false
@@ -56,7 +62,12 @@ class EditGameViewModel @Inject constructor(
                         category = game.category,
                         description = game.description,
                         scoreIncrement = game.scoreIncrement.toString(),
+                        hasDice = game.hasDice,
+                        diceCount = game.diceCount.toString(),
+                        diceFaces = game.diceFaces.toString(),
                         allowNegativeScores = game.allowNegativeScores,
+                        gridType = game.gridType,
+                        isPredefined = game.isPredefined,
                         isLoading = false
                     )
                 } else {
@@ -96,6 +107,18 @@ class EditGameViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(scoreIncrement = increment)
     }
 
+    fun onDiceCountChange(count: String) {
+        _uiState.value = _uiState.value.copy(diceCount = count)
+    }
+
+    fun onHasDiceChange(hasDice: Boolean) {
+        _uiState.value = _uiState.value.copy(hasDice = hasDice)
+    }
+
+    fun onDiceFacesChange(faces: String) {
+        _uiState.value = _uiState.value.copy(diceFaces = faces)
+    }
+
     fun onAllowNegativeScoresChange(allow: Boolean) {
         _uiState.value = _uiState.value.copy(allowNegativeScores = allow)
     }
@@ -109,6 +132,8 @@ class EditGameViewModel @Inject constructor(
         val maxPlayers = state.maxPlayers.toIntOrNull() ?: minPlayers
         val duration = state.averageDuration.toIntOrNull() ?: 30
         val scoreIncrement = state.scoreIncrement.toIntOrNull() ?: 1
+        val diceCount = state.diceCount.toIntOrNull() ?: 1
+        val diceFaces = state.diceFaces.toIntOrNull() ?: 6
 
         _uiState.value = state.copy(isSaving = true)
 
@@ -117,13 +142,16 @@ class EditGameViewModel @Inject constructor(
                 val existingGame = gameRepository.getGameById(gameId)
                 if (existingGame != null) {
                     val updatedGame = existingGame.copy(
-                        name = state.name,
+                        name = state.name.trim(),
                         minPlayers = minPlayers,
                         maxPlayers = maxPlayers,
                         averageDuration = duration,
-                        category = state.category,
-                        description = state.description,
+                        category = state.category.trim(),
+                        description = state.description.trim(),
                         scoreIncrement = scoreIncrement,
+                        hasDice = state.hasDice,
+                        diceCount = diceCount,
+                        diceFaces = diceFaces,
                         allowNegativeScores = state.allowNegativeScores,
                         lastModifiedAt = System.currentTimeMillis()
                     )

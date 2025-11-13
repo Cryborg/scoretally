@@ -30,6 +30,8 @@ fun SettingsScreen(
     val userPreferences by viewModel.userPreferences.collectAsStateWithLifecycle()
     val authState by viewModel.authState.collectAsStateWithLifecycle()
     val signInError by viewModel.signInError.collectAsStateWithLifecycle()
+    val syncError by viewModel.syncError.collectAsStateWithLifecycle()
+    val isSyncing by viewModel.isSyncing.collectAsStateWithLifecycle()
 
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
@@ -83,7 +85,10 @@ fun SettingsScreen(
                     autoSyncEnabled = userPreferences.autoSyncEnabled,
                     lastSyncTimestamp = userPreferences.lastSyncTimestamp,
                     onAutoSyncToggle = viewModel::updateAutoSync,
-                    onSyncNowClick = viewModel::triggerManualSync
+                    onSyncNowClick = viewModel::triggerManualSync,
+                    isSyncing = isSyncing,
+                    syncError = syncError,
+                    onClearSyncError = viewModel::clearSyncError
                 )
             }
         }
@@ -295,7 +300,10 @@ fun SyncSection(
     autoSyncEnabled: Boolean,
     lastSyncTimestamp: Long,
     onAutoSyncToggle: (Boolean) -> Unit,
-    onSyncNowClick: () -> Unit
+    onSyncNowClick: () -> Unit,
+    isSyncing: Boolean,
+    syncError: String?,
+    onClearSyncError: () -> Unit
 ) {
     Column {
         Text(
@@ -353,19 +361,54 @@ fun SyncSection(
                     )
                 }
 
+                // Erreur de sync
+                if (syncError != null) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = syncError,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(onClick = onClearSyncError) {
+                                Text("OK")
+                            }
+                        }
+                    }
+                }
+
                 // Bouton Sync Now
                 Button(
                     onClick = onSyncNowClick,
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = autoSyncEnabled
+                    enabled = !isSyncing
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
+                    if (isSyncing) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(18.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Synchroniser maintenant")
+                    Text(if (isSyncing) "Synchronisation..." else "Synchroniser maintenant")
                 }
             }
         }

@@ -48,7 +48,8 @@ fun AddPlayerScreen(
             isSaving = uiState.isSaving,
             canSave = uiState.name.isNotBlank(),
             saveButtonText = stringResource(R.string.save),
-            modifier = Modifier.padding(padding)
+            modifier = Modifier.padding(padding),
+            nameError = uiState.nameError
         )
     }
 }

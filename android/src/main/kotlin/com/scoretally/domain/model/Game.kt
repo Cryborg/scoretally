@@ -15,6 +15,12 @@ data class Game(
     val notes: String = "",
     val scoreIncrement: Int = 1,
     val allowNegativeScores: Boolean = true,
+    val gridType: GridType = GridType.STANDARD,
+    val hasDice: Boolean = false,
+    val diceCount: Int = 1,
+    val diceFaces: Int = 6,
+    val isPredefined: Boolean = false,
+    val isComingSoon: Boolean = false,
     val syncId: String = UUID.randomUUID().toString(),
     val lastModifiedAt: Long = System.currentTimeMillis(),
     val isDeleted: Boolean = false

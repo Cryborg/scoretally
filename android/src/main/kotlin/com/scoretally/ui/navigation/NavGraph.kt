@@ -26,6 +26,7 @@ import com.scoretally.ui.players.AddPlayerScreen
 import com.scoretally.ui.players.EditPlayerScreen
 import com.scoretally.ui.players.PlayersScreen
 import com.scoretally.ui.settings.SettingsScreen
+import com.scoretally.ui.tools.ToolsScreen
 
 @Composable
 fun NavGraph(
@@ -50,6 +51,9 @@ fun NavGraph(
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToTools = {
+                    navController.navigate(Screen.Tools.route)
                 }
             )
         }
@@ -64,6 +68,9 @@ fun NavGraph(
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToTools = {
+                    navController.navigate(Screen.Tools.route)
                 }
             )
         }
@@ -78,7 +85,16 @@ fun NavGraph(
                 },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onNavigateToTools = {
+                    navController.navigate(Screen.Tools.route)
                 }
+            )
+        }
+
+        composable(Screen.Tools.route) {
+            ToolsScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 

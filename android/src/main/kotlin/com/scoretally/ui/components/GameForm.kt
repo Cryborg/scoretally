@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.scoretally.R
+import com.scoretally.domain.model.GridType
 
 @Composable
 fun GameForm(
@@ -29,13 +30,20 @@ fun GameForm(
     onDescriptionChange: (String) -> Unit,
     scoreIncrement: String,
     onScoreIncrementChange: (String) -> Unit,
+    hasDice: Boolean,
+    onHasDiceChange: (Boolean) -> Unit,
+    diceCount: String,
+    onDiceCountChange: (String) -> Unit,
+    diceFaces: String,
+    onDiceFacesChange: (String) -> Unit,
     allowNegativeScores: Boolean,
     onAllowNegativeScoresChange: (Boolean) -> Unit,
     onSave: () -> Unit,
     isSaving: Boolean,
     canSave: Boolean,
     saveButtonText: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPredefined: Boolean = false
 ) {
     Column(
         modifier = modifier
@@ -49,7 +57,8 @@ fun GameForm(
             onValueChange = onNameChange,
             label = { Text(stringResource(R.string.add_game_name_label)) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isSaving
+            enabled = !isSaving,
+            singleLine = true
         )
 
         Row(
@@ -89,7 +98,8 @@ fun GameForm(
             onValueChange = onCategoryChange,
             label = { Text(stringResource(R.string.add_game_category_label)) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isSaving
+            enabled = !isSaving,
+            singleLine = true
         )
 
         OutlinedTextField(
@@ -110,6 +120,57 @@ fun GameForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             enabled = !isSaving
         )
+
+        // Dice checkbox
+        if (!isPredefined) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.game_has_dice_label),
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Text(
+                        text = stringResource(R.string.game_has_dice_description),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = hasDice,
+                    onCheckedChange = onHasDiceChange,
+                    enabled = !isSaving
+                )
+            }
+
+            if (hasDice) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    OutlinedTextField(
+                        value = diceCount,
+                        onValueChange = onDiceCountChange,
+                        label = { Text(stringResource(R.string.add_game_dice_count_label)) },
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = !isSaving
+                    )
+
+                    OutlinedTextField(
+                        value = diceFaces,
+                        onValueChange = onDiceFacesChange,
+                        label = { Text(stringResource(R.string.add_game_dice_faces_label)) },
+                        modifier = Modifier.weight(1f),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        enabled = !isSaving
+                    )
+                }
+            }
+        }
 
         // Allow negative scores switch
         Row(

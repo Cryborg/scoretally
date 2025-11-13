@@ -5,5 +5,6 @@ data class MatchPlayer(
     val matchId: Long,
     val playerId: Long,
     val score: Int,
-    val rank: Int
+    val rank: Int,
+    val gridState: String? = null
 )

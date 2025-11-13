@@ -33,7 +33,8 @@ data class MatchPlayerEntity(
     val matchId: Long,
     val playerId: Long,
     val score: Int,
-    val rank: Int
+    val rank: Int,
+    val gridState: String? = null
 )
 
 fun MatchPlayerEntity.toDomain() = MatchPlayer(
@@ -41,7 +42,8 @@ fun MatchPlayerEntity.toDomain() = MatchPlayer(
     matchId = matchId,
     playerId = playerId,
     score = score,
-    rank = rank
+    rank = rank,
+    gridState = gridState
 )
 
 fun MatchPlayer.toEntity() = MatchPlayerEntity(
@@ -49,5 +51,11 @@ fun MatchPlayer.toEntity() = MatchPlayerEntity(
     matchId = matchId,
     playerId = playerId,
     score = score,
-    rank = rank
+    rank = rank,
+    gridState = gridState
+)
+
+data class MatchPlayerWithName(
+    val matchId: Long,
+    val playerName: String
 )

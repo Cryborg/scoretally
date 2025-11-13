@@ -14,3 +14,20 @@ data class Match(
     val lastModifiedAt: Long = System.currentTimeMillis(),
     val isDeleted: Boolean = false
 )
+
+data class MatchListItem(
+    val match: Match,
+    val gameName: String,
+    val playerNames: List<String>
+)
+
+data class PlayerScore(
+    val matchPlayer: MatchPlayer,
+    val player: Player
+)
+
+data class MatchWithDetails(
+    val match: Match,
+    val game: Game,
+    val playerScores: List<PlayerScore>
+)

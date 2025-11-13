@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.scoretally.domain.repository.PreferencesRepository
 import com.scoretally.ui.components.BottomNavBar
@@ -26,9 +27,16 @@ class MainActivity : AppCompatActivity() {
         setContent {
             AppThemeProvider(preferencesRepository = preferencesRepository) {
                 val navController = rememberNavController()
+                val navBackStackEntry = navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry.value?.destination?.route
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    bottomBar = { BottomNavBar(navController) }
+                    bottomBar = {
+                        if (currentRoute != "settings" && currentRoute != "tools") {
+                            BottomNavBar(navController)
+                        }
+                    }
                 ) { innerPadding ->
                     NavGraph(
                         navController = navController,

@@ -1,21 +1,40 @@
 package com.scoretally.data.repository
 
 import com.scoretally.data.local.dao.MatchDao
+import com.scoretally.data.local.dao.MatchPlayerDao
 import com.scoretally.data.local.entity.toDomain
 import com.scoretally.data.local.entity.toEntity
 import com.scoretally.domain.model.Match
+import com.scoretally.domain.model.MatchListItem
 import com.scoretally.domain.repository.MatchRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MatchRepositoryImpl @Inject constructor(
-    private val matchDao: MatchDao
+    private val matchDao: MatchDao,
+    private val matchPlayerDao: MatchPlayerDao
 ) : MatchRepository {
 
     override fun getAllMatches(): Flow<List<Match>> =
         matchDao.getAllMatches().map { entities ->
             entities.map { it.toDomain() }
+        }
+
+    override fun getAllMatchesForList(): Flow<List<MatchListItem>> =
+        combine(
+            matchDao.getAllMatchesWithGameName(),
+            matchPlayerDao.getAllMatchPlayersWithNames()
+        ) { matchesWithGame, matchPlayers ->
+            val playersByMatchId = matchPlayers.groupBy { it.matchId }
+            matchesWithGame.map { matchEntity ->
+                MatchListItem(
+                    match = matchEntity.toDomain(),
+                    gameName = matchEntity.gameName,
+                    playerNames = playersByMatchId[matchEntity.id]?.map { it.playerName } ?: emptyList()
+                )
+            }
         }
 
     override suspend fun getMatchById(matchId: Long): Match? =

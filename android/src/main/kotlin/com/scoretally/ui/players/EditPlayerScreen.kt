@@ -75,7 +75,8 @@ fun EditPlayerScreen(
                     canSave = uiState.name.isNotBlank(),
                     saveButtonText = stringResource(R.string.save),
                     modifier = Modifier.padding(padding),
-                    autoFocus = true
+                    autoFocus = true,
+                    nameError = uiState.nameError
                 )
             }
         }

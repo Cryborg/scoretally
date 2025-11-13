@@ -67,12 +67,7 @@ class SyncManager @Inject constructor(
     }
 
     suspend fun triggerManualSync() {
-        val prefs = preferencesRepository.userPreferences.first()
-        if (!prefs.autoSyncEnabled) {
-            return
-        }
-
-        // Déclencher une synchronisation immédiate
+        // Déclencher une synchronisation immédiate (indépendamment de autoSyncEnabled)
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
