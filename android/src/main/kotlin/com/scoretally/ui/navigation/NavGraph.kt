@@ -39,6 +39,10 @@ fun NavGraph(
                 onNavigateToAddMatch = {
                     navController.navigate(Screen.AddMatch.route)
                 },
+                onNavigateToQuickMatch = {
+                    // TODO: Navigate to QuickMatch screen
+                    navController.navigate(Screen.AddMatch.route) // Temporary
+                },
                 onNavigateToMatchDetail = { matchId ->
                     navController.navigate(Screen.MatchDetail.createRoute(matchId))
                 }

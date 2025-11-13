@@ -25,6 +25,8 @@
     <string name="matches_title">Mes Parties</string>
     <string name="matches_empty">Aucune partie pour le moment.\nAppuyez sur + pour en créer une !</string>
     <string name="match_create">Créer une partie</string>
+    <string name="match_create_quick">Partie rapide</string>
+    <string name="match_create_full">Partie complète</string>
     <string name="match_detail">Détail de la partie</string>
     <string name="match_status_completed">Terminée</string>
     <string name="match_status_in_progress">En cours</string>

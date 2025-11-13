@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,12 +19,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.Match
+import com.scoretally.ui.components.ExpandableFAB
+import com.scoretally.ui.components.FABMenuItem
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MatchesScreen(
     onNavigateToAddMatch: () -> Unit,
+    onNavigateToQuickMatch: () -> Unit,
     onNavigateToMatchDetail: (Long) -> Unit,
     viewModel: MatchesViewModel = hiltViewModel()
 ) {
@@ -35,9 +40,20 @@ fun MatchesScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToAddMatch) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.cd_add))
-            }
+            ExpandableFAB(
+                items = listOf(
+                    FABMenuItem(
+                        label = stringResource(R.string.match_create_quick),
+                        icon = Icons.Default.PlayArrow,
+                        onClick = onNavigateToQuickMatch
+                    ),
+                    FABMenuItem(
+                        label = stringResource(R.string.match_create_full),
+                        icon = Icons.Default.List,
+                        onClick = onNavigateToAddMatch
+                    )
+                )
+            )
         }
     ) { padding ->
         if (matches.isEmpty()) {

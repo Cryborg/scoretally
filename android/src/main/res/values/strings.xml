@@ -25,6 +25,8 @@
     <string name="matches_title">My Matches</string>
     <string name="matches_empty">No matches yet.\nTap + to create one!</string>
     <string name="match_create">Create match</string>
+    <string name="match_create_quick">Quick match</string>
+    <string name="match_create_full">Full match</string>
     <string name="match_detail">Match details</string>
     <string name="match_status_completed">Completed</string>
     <string name="match_status_in_progress">In progress</string>
