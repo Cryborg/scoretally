@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "527547605314",
+    "project_id": "scoretally-b806c",
+    "storage_bucket": "scoretally-b806c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527547605314:android:360f53dd7fa482045168db",
+        "android_client_info": {
+          "package_name": "com.scoretally"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPr2AOiakh-HYkaV-NJ6VOwAYkSFpjtJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
