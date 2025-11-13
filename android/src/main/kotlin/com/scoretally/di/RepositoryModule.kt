@@ -4,10 +4,12 @@ import com.scoretally.data.repository.GameRepositoryImpl
 import com.scoretally.data.repository.MatchPlayerRepositoryImpl
 import com.scoretally.data.repository.MatchRepositoryImpl
 import com.scoretally.data.repository.PlayerRepositoryImpl
+import com.scoretally.data.repository.PreferencesRepositoryImpl
 import com.scoretally.domain.repository.GameRepository
 import com.scoretally.domain.repository.MatchPlayerRepository
 import com.scoretally.domain.repository.MatchRepository
 import com.scoretally.domain.repository.PlayerRepository
+import com.scoretally.domain.repository.PreferencesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -41,4 +43,10 @@ abstract class RepositoryModule {
     abstract fun bindMatchPlayerRepository(
         matchPlayerRepositoryImpl: MatchPlayerRepositoryImpl
     ): MatchPlayerRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPreferencesRepository(
+        preferencesRepositoryImpl: PreferencesRepositoryImpl
+    ): PreferencesRepository
 }

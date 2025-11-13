@@ -76,9 +76,24 @@
     <string name="match_detail_edit_score">Modifica punteggio</string>
     <string name="match_detail_enter_score">Inserisci il nuovo punteggio</string>
 
+    <!-- Settings -->
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_language">Lingua</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_language_system">Predefinito di sistema</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_french">Français</string>
+    <string name="settings_language_spanish">Español</string>
+    <string name="settings_language_german">Deutsch</string>
+    <string name="settings_language_italian">Italiano</string>
+    <string name="settings_theme_system">Predefinito di sistema</string>
+    <string name="settings_theme_light">Chiaro</string>
+    <string name="settings_theme_dark">Scuro</string>
+
     <!-- Content Descriptions -->
     <string name="cd_add">Aggiungi</string>
     <string name="cd_back">Indietro</string>
     <string name="cd_increment">Aumenta</string>
     <string name="cd_decrement">Diminuisci</string>
+    <string name="cd_settings">Impostazioni</string>
 </resources>

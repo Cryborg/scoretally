@@ -22,6 +22,7 @@ import com.scoretally.ui.matches.MatchDetailScreen
 import com.scoretally.ui.matches.MatchesScreen
 import com.scoretally.ui.players.AddPlayerScreen
 import com.scoretally.ui.players.PlayersScreen
+import com.scoretally.ui.settings.SettingsScreen
 
 @Composable
 fun NavGraph(
@@ -117,6 +118,12 @@ fun NavGraph(
             arguments = listOf(navArgument("matchId") { type = NavType.LongType })
         ) {
             MatchDetailScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Settings.route) {
+            SettingsScreen(
                 onBack = { navController.popBackStack() }
             )
         }

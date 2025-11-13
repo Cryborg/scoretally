@@ -24,4 +24,5 @@ sealed class Screen(val route: String) {
     object MatchDetail : Screen("match/{matchId}") {
         fun createRoute(matchId: Long) = "match/$matchId"
     }
+    object Settings : Screen("settings")
 }

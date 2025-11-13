@@ -76,9 +76,24 @@
     <string name="match_detail_edit_score">Edit score</string>
     <string name="match_detail_enter_score">Enter new score</string>
 
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_language_system">System default</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_french">Français</string>
+    <string name="settings_language_spanish">Español</string>
+    <string name="settings_language_german">Deutsch</string>
+    <string name="settings_language_italian">Italiano</string>
+    <string name="settings_theme_system">System default</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+
     <!-- Content Descriptions -->
     <string name="cd_add">Add</string>
     <string name="cd_back">Back</string>
     <string name="cd_increment">Increment</string>
     <string name="cd_decrement">Decrement</string>
+    <string name="cd_settings">Settings</string>
 </resources>

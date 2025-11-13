@@ -3,6 +3,7 @@ package com.scoretally.ui.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -25,7 +26,8 @@ fun BottomNavBar(navController: NavController) {
     val items = listOf(
         BottomNavItem(Screen.Matches.route, Icons.Default.PlayArrow, stringResource(R.string.nav_matches)),
         BottomNavItem(Screen.Games.route, Icons.Default.Star, stringResource(R.string.nav_games)),
-        BottomNavItem(Screen.Players.route, Icons.Default.Person, stringResource(R.string.nav_players))
+        BottomNavItem(Screen.Players.route, Icons.Default.Person, stringResource(R.string.nav_players)),
+        BottomNavItem(Screen.Settings.route, Icons.Default.Settings, stringResource(R.string.settings_title))
     )
 
     NavigationBar {
