@@ -1,5 +1,7 @@
 package com.scoretally.domain.model
 
+import java.util.UUID
+
 data class Game(
     val id: Long = 0,
     val name: String,
@@ -11,5 +13,8 @@ data class Game(
     val description: String = "",
     val rating: Float = 0f,
     val notes: String = "",
-    val scoreIncrement: Int = 1
+    val scoreIncrement: Int = 1,
+    val syncId: String = UUID.randomUUID().toString(),
+    val lastModifiedAt: Long = System.currentTimeMillis(),
+    val isDeleted: Boolean = false
 )

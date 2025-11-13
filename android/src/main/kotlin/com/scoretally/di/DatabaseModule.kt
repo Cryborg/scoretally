@@ -6,6 +6,7 @@ import com.scoretally.data.local.dao.GameDao
 import com.scoretally.data.local.dao.MatchDao
 import com.scoretally.data.local.dao.MatchPlayerDao
 import com.scoretally.data.local.dao.PlayerDao
+import com.scoretally.data.local.database.MIGRATION_2_3
 import com.scoretally.data.local.database.ScoreTallyDatabase
 import dagger.Module
 import dagger.Provides
@@ -26,6 +27,7 @@ object DatabaseModule {
             ScoreTallyDatabase::class.java,
             "scoretally_database"
         )
+        .addMigrations(MIGRATION_2_3)
         .fallbackToDestructiveMigration()
         .build()
     }

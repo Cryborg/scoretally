@@ -3,6 +3,7 @@ package com.scoretally.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.scoretally.domain.model.Game
+import java.util.UUID
 
 @Entity(tableName = "games")
 data class GameEntity(
@@ -17,7 +18,10 @@ data class GameEntity(
     val description: String = "",
     val rating: Float = 0f,
     val notes: String = "",
-    val scoreIncrement: Int = 1
+    val scoreIncrement: Int = 1,
+    val syncId: String = UUID.randomUUID().toString(),
+    val lastModifiedAt: Long = System.currentTimeMillis(),
+    val isDeleted: Boolean = false
 )
 
 fun GameEntity.toDomain() = Game(
@@ -31,7 +35,10 @@ fun GameEntity.toDomain() = Game(
     description = description,
     rating = rating,
     notes = notes,
-    scoreIncrement = scoreIncrement
+    scoreIncrement = scoreIncrement,
+    syncId = syncId,
+    lastModifiedAt = lastModifiedAt,
+    isDeleted = isDeleted
 )
 
 fun Game.toEntity() = GameEntity(
@@ -45,5 +52,8 @@ fun Game.toEntity() = GameEntity(
     description = description,
     rating = rating,
     notes = notes,
-    scoreIncrement = scoreIncrement
+    scoreIncrement = scoreIncrement,
+    syncId = syncId,
+    lastModifiedAt = lastModifiedAt,
+    isDeleted = isDeleted
 )

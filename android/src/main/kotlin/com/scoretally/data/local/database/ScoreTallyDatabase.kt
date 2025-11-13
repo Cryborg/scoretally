@@ -18,7 +18,7 @@ import com.scoretally.data.local.entity.PlayerEntity
         MatchEntity::class,
         MatchPlayerEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class ScoreTallyDatabase : RoomDatabase() {

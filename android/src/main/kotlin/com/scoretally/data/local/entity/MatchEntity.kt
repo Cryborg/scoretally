@@ -8,6 +8,7 @@ import com.scoretally.domain.model.Match
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.util.UUID
 
 @Entity(
     tableName = "matches",
@@ -28,7 +29,10 @@ data class MatchEntity(
     val dateTimestamp: Long,
     val duration: Int? = null,
     val notes: String = "",
-    val isCompleted: Boolean = false
+    val isCompleted: Boolean = false,
+    val syncId: String = UUID.randomUUID().toString(),
+    val lastModifiedAt: Long = System.currentTimeMillis(),
+    val isDeleted: Boolean = false
 )
 
 fun MatchEntity.toDomain() = Match(
@@ -37,7 +41,10 @@ fun MatchEntity.toDomain() = Match(
     date = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateTimestamp), ZoneId.systemDefault()),
     duration = duration,
     notes = notes,
-    isCompleted = isCompleted
+    isCompleted = isCompleted,
+    syncId = syncId,
+    lastModifiedAt = lastModifiedAt,
+    isDeleted = isDeleted
 )
 
 fun Match.toEntity() = MatchEntity(
@@ -46,5 +53,8 @@ fun Match.toEntity() = MatchEntity(
     dateTimestamp = date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
     duration = duration,
     notes = notes,
-    isCompleted = isCompleted
+    isCompleted = isCompleted,
+    syncId = syncId,
+    lastModifiedAt = lastModifiedAt,
+    isDeleted = isDeleted
 )
