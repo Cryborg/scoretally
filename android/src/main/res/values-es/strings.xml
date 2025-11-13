@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">ScoreTally</string>
+
+    <!-- Common -->
+    <string name="back">Volver</string>
+    <string name="save">Guardar</string>
+    <string name="saving">Guardando…</string>
+    <string name="add">Añadir</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="ok">OK</string>
+    <string name="notes">Notas</string>
+    <string name="duration">Duración</string>
+    <string name="required">Requerido</string>
+
+    <!-- Navigation -->
+    <string name="nav_matches">Partidas</string>
+    <string name="nav_games">Juegos</string>
+    <string name="nav_players">Jugadores</string>
+
+    <!-- Matches -->
+    <string name="matches_title">Mis Partidas</string>
+    <string name="matches_empty">Aún no hay partidas.\n¡Toca + para crear una!</string>
+    <string name="match_create">Crear partida</string>
+    <string name="match_detail">Detalles de la partida</string>
+    <string name="match_status_completed">Completada</string>
+    <string name="match_status_in_progress">En curso</string>
+    <string name="match_game_label">Juego n.º %1$d</string>
+    <string name="match_duration_label">Duración: %1$d min</string>
+
+    <!-- Add Match -->
+    <string name="add_match_title">Crear una partida</string>
+    <string name="add_match_game_label">Juego *</string>
+    <string name="add_match_players_label">Jugadores *</string>
+    <string name="add_match_players_empty">No hay jugadores disponibles. ¡Añade jugadores primero!</string>
+    <string name="add_match_create_button">Crear partida</string>
+
+    <!-- Games -->
+    <string name="games_title">Mis Juegos</string>
+    <string name="games_empty">Aún no hay juegos.\n¡Toca + para añadir uno!</string>
+    <string name="game_add">Añadir juego</string>
+    <string name="game_detail">Detalles del juego</string>
+    <string name="game_players_range">%1$d-%2$d jugadores • %3$d min</string>
+
+    <!-- Add Game -->
+    <string name="add_game_title">Añadir un juego</string>
+    <string name="add_game_name_label">Nombre del juego *</string>
+    <string name="add_game_min_players_label">Mín. jugadores</string>
+    <string name="add_game_max_players_label">Máx. jugadores</string>
+    <string name="add_game_duration_label">Duración promedio (min)</string>
+    <string name="add_game_category_label">Categoría</string>
+    <string name="add_game_description_label">Descripción</string>
+    <string name="add_game_score_increment_label">Incremento de puntuación</string>
+
+    <!-- Players -->
+    <string name="players_title">Mis Jugadores</string>
+    <string name="players_empty">Aún no hay jugadores.\n¡Toca + para añadir uno!</string>
+    <string name="player_add">Añadir jugador</string>
+    <string name="player_detail">Detalles del jugador</string>
+
+    <!-- Add Player -->
+    <string name="add_player_title">Añadir un jugador</string>
+    <string name="add_player_name_label">Nombre del jugador *</string>
+    <string name="add_player_color_label">Color preferido</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_message">Pantalla en desarrollo</string>
+
+    <!-- Match Detail -->
+    <string name="match_detail_score">Puntuación</string>
+    <string name="match_detail_increment">Incrementar puntuación</string>
+    <string name="match_detail_decrement">Decrementar puntuación</string>
+    <string name="match_detail_edit_score">Editar puntuación</string>
+    <string name="match_detail_enter_score">Introduce la nueva puntuación</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_add">Añadir</string>
+    <string name="cd_back">Volver</string>
+    <string name="cd_increment">Incrementar</string>
+    <string name="cd_decrement">Decrementar</string>
+</resources>

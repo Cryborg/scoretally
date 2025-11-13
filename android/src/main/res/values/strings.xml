@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">ScoreTally</string>
+
+    <!-- Common -->
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="saving">Saving…</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="notes">Notes</string>
+    <string name="duration">Duration</string>
+    <string name="required">Required</string>
+
+    <!-- Navigation -->
+    <string name="nav_matches">Matches</string>
+    <string name="nav_games">Games</string>
+    <string name="nav_players">Players</string>
+
+    <!-- Matches -->
+    <string name="matches_title">My Matches</string>
+    <string name="matches_empty">No matches yet.\nTap + to create one!</string>
+    <string name="match_create">Create match</string>
+    <string name="match_detail">Match details</string>
+    <string name="match_status_completed">Completed</string>
+    <string name="match_status_in_progress">In progress</string>
+    <string name="match_game_label">Game #%1$d</string>
+    <string name="match_duration_label">Duration: %1$d min</string>
+
+    <!-- Add Match -->
+    <string name="add_match_title">Create a Match</string>
+    <string name="add_match_game_label">Game *</string>
+    <string name="add_match_players_label">Players *</string>
+    <string name="add_match_players_empty">No players available. Add players first!</string>
+    <string name="add_match_create_button">Create match</string>
+
+    <!-- Games -->
+    <string name="games_title">My Games</string>
+    <string name="games_empty">No games yet.\nTap + to add one!</string>
+    <string name="game_add">Add game</string>
+    <string name="game_detail">Game details</string>
+    <string name="game_players_range">%1$d-%2$d players • %3$d min</string>
+
+    <!-- Add Game -->
+    <string name="add_game_title">Add a Game</string>
+    <string name="add_game_name_label">Game name *</string>
+    <string name="add_game_min_players_label">Min players</string>
+    <string name="add_game_max_players_label">Max players</string>
+    <string name="add_game_duration_label">Average duration (min)</string>
+    <string name="add_game_category_label">Category</string>
+    <string name="add_game_description_label">Description</string>
+    <string name="add_game_score_increment_label">Score increment</string>
+
+    <!-- Players -->
+    <string name="players_title">My Players</string>
+    <string name="players_empty">No players yet.\nTap + to add one!</string>
+    <string name="player_add">Add player</string>
+    <string name="player_detail">Player details</string>
+
+    <!-- Add Player -->
+    <string name="add_player_title">Add a Player</string>
+    <string name="add_player_name_label">Player name *</string>
+    <string name="add_player_color_label">Preferred color</string>
+
+    <!-- Placeholder -->
+    <string name="placeholder_message">Screen under development</string>
+
+    <!-- Match Detail -->
+    <string name="match_detail_score">Score</string>
+    <string name="match_detail_increment">Increment score</string>
+    <string name="match_detail_decrement">Decrement score</string>
+    <string name="match_detail_edit_score">Edit score</string>
+    <string name="match_detail_enter_score">Enter new score</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_add">Add</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_increment">Increment</string>
+    <string name="cd_decrement">Decrement</string>
+</resources>
