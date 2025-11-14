@@ -10,11 +10,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,6 +31,7 @@ import com.scoretally.domain.model.MatchListItem
 import com.scoretally.ui.components.EmptyState
 import com.scoretally.ui.components.ExpandableFAB
 import com.scoretally.ui.components.FABMenuItem
+import com.scoretally.ui.theme.LocalThemeResources
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +45,7 @@ fun MatchesScreen(
     viewModel: MatchesViewModel = hiltViewModel()
 ) {
     val matches by viewModel.matches.collectAsStateWithLifecycle()
+    var matchToDelete by remember { mutableStateOf<MatchListItem?>(null) }
 
     Scaffold(
         topBar = {
@@ -76,10 +78,12 @@ fun MatchesScreen(
             )
         }
     ) { padding ->
+        val themeResources = LocalThemeResources.current
+
         Box(modifier = Modifier.fillMaxSize()) {
             // Background image with transparency
             Image(
-                painter = painterResource(R.drawable.bg_matches),
+                painter = painterResource(themeResources.bgMatches),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -119,57 +123,89 @@ fun MatchesScreen(
                     items(matches) { matchListItem ->
                         MatchItem(
                             matchListItem = matchListItem,
-                            onClick = { onNavigateToMatchDetail(matchListItem.match.id) }
+                            onClick = { onNavigateToMatchDetail(matchListItem.match.id) },
+                            onDelete = { matchToDelete = matchListItem }
                         )
                     }
                 }
             }
         }
     }
+
+    matchToDelete?.let { matchItem ->
+        AlertDialog(
+            onDismissRequest = { matchToDelete = null },
+            title = { Text(stringResource(R.string.delete_match_title)) },
+            text = { Text(stringResource(R.string.delete_match_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.deleteMatch(matchItem.match.id)
+                        matchToDelete = null
+                    }
+                ) {
+                    Text(stringResource(R.string.delete))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { matchToDelete = null }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
 }
 
 @Composable
 fun MatchItem(
     matchListItem: MatchListItem,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDelete: () -> Unit
 ) {
     val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
     val match = matchListItem.match
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onClick)
+                    .padding(16.dp)
             ) {
-                Text(
-                    text = matchListItem.gameName,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Surface(
-                    color = if (match.isCompleted)
-                        MaterialTheme.colorScheme.primaryContainer
-                    else
-                        MaterialTheme.colorScheme.secondaryContainer,
-                    shape = MaterialTheme.shapes.small
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = stringResource(
-                            if (match.isCompleted) R.string.match_status_completed
-                            else R.string.match_status_in_progress
-                        ),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall
+                        text = matchListItem.gameName,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f)
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Surface(
+                        color = if (match.isCompleted)
+                            MaterialTheme.colorScheme.primaryContainer
+                        else
+                            MaterialTheme.colorScheme.secondaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Text(
+                            text = stringResource(
+                                if (match.isCompleted) R.string.match_status_completed
+                                else R.string.match_status_in_progress
+                            ),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    }
                 }
-            }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = match.date.format(dateFormatter),
@@ -193,12 +229,20 @@ fun MatchItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            if (match.notes.isNotBlank()) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = match.notes,
-                    style = MaterialTheme.typography.bodySmall,
-                    maxLines = 2
+                if (match.notes.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = match.notes,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 2
+                    )
+                }
+            }
+            IconButton(onClick = onDelete) {
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.delete),
+                    tint = MaterialTheme.colorScheme.error
                 )
             }
         }

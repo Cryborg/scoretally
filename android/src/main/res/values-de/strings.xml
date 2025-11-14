@@ -67,6 +67,19 @@
     <string name="edit_game_title">Spiel bearbeiten</string>
     <string name="update">Aktualisieren</string>
 
+    <!-- BGG Search -->
+    <string name="search_bgg">Auf BoardGameGeek suchen</string>
+    <string name="search_game">Nach einem Spiel suchen</string>
+    <string name="search">Suchen</string>
+    <string name="no_results_found">Keine Ergebnisse gefunden</string>
+    <string name="import_from_bgg">Von BGG importieren</string>
+    <string name="manual_entry">Manuelle Eingabe</string>
+
+    <!-- BGG Token -->
+    <string name="settings_bgg_token">BoardGameGeek-API</string>
+    <string name="settings_bgg_token_label">Bearer Token</string>
+    <string name="settings_bgg_token_hint">Registrieren Sie sich unter boardgamegeek.com/applications, um einen Token zu erhalten</string>
+
     <!-- Players -->
     <string name="players_title">Meine Spieler</string>
     <string name="players_empty">Noch keine Spieler.\nTippe auf +, um einen hinzuzufügen!</string>
@@ -117,9 +130,27 @@
     <string name="first_player_draw">Auslosen</string>
     <string name="first_player_result">%s fängt an!</string>
 
+    <!-- Game Dice -->
+    <string name="game_has_dice_label">Würfel verwenden</string>
+    <string name="game_has_dice_description">Würfelwurf für dieses Spiel aktivieren</string>
+
+    <!-- Game Negative Scores -->
+    <string name="game_allow_negative_scores_label">Negative Punkte zulassen</string>
+    <string name="game_allow_negative_scores_description">Spieler können Punkte &lt; 0 haben</string>
+
     <!-- Delete Player -->
     <string name="delete_player_title">Spieler löschen?</string>
     <string name="delete_player_message">Dadurch wird dieser Spieler dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+
+    <!-- Delete Game -->
+    <string name="delete_game_title">Spiel löschen?</string>
+    <string name="delete_game_message">Diese Aktion löscht dieses Spiel dauerhaft. Dies kann nicht rückgängig gemacht werden.</string>
+
+    <!-- Favorites -->
+    <string name="add_favorite">Zu Favoriten hinzufügen</string>
+    <string name="remove_favorite">Aus Favoriten entfernen</string>
+    <string name="show_favorites_only">Nur Favoriten anzeigen</string>
+    <string name="show_all_games">Alle Spiele anzeigen</string>
 
     <!-- Validation -->
     <string name="error_player_name_exists">Ein Spieler mit diesem Namen existiert bereits</string>
@@ -132,4 +163,74 @@
     <string name="cd_settings">Einstellungen</string>
     <string name="cd_dice">Würfel</string>
     <string name="cd_first_player">Wer fängt an</string>
+
+    <!-- Delete Match -->
+    <string name="delete_match_title">Spiel löschen?</string>
+    <string name="delete_match_message">Möchten Sie dieses Spiel wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+
+    <!-- Yahtzee Grid -->
+    <string name="yahtzee_upper_section">OBERER ABSCHNITT</string>
+    <string name="yahtzee_lower_section">UNTERER ABSCHNITT</string>
+    <string name="yahtzee_upper_total">Summe oben</string>
+    <string name="yahtzee_bonus">Bonus (≥63)</string>
+    <string name="yahtzee_total">GESAMT</string>
+
+    <!-- Yahtzee Categories -->
+    <string name="yahtzee_ones">Einser (1)</string>
+    <string name="yahtzee_twos">Zweier (2)</string>
+    <string name="yahtzee_threes">Dreier (3)</string>
+    <string name="yahtzee_fours">Vierer (4)</string>
+    <string name="yahtzee_fives">Fünfer (5)</string>
+    <string name="yahtzee_sixes">Sechser (6)</string>
+    <string name="yahtzee_three_of_kind">Drilling</string>
+    <string name="yahtzee_four_of_kind">Vierling</string>
+    <string name="yahtzee_full_house">Full House</string>
+    <string name="yahtzee_small_straight">Kleine Straße</string>
+    <string name="yahtzee_large_straight">Große Straße</string>
+    <string name="yahtzee_yahtzee">Kniffel</string>
+    <string name="yahtzee_chance">Chance</string>
+
+    <!-- Predefined Games -->
+    <string name="game_badge_coming_soon">Demnächst</string>
+    <string name="game_badge_default">Standardspiel</string>
+
+    <!-- Predefined Game: Yahtzee -->
+    <string name="predefined_yahtzee_name">Kniffel</string>
+    <string name="predefined_yahtzee_category">Würfel</string>
+    <string name="predefined_yahtzee_description">Das klassische Würfelspiel mit legendären Kombinationen</string>
+
+    <!-- Predefined Game: Tarot -->
+    <string name="predefined_tarot_name">Tarot</string>
+    <string name="predefined_tarot_category">Karten</string>
+    <string name="predefined_tarot_description">Traditionelles französisches Kartenspiel</string>
+
+    <!-- Predefined Game: Belote -->
+    <string name="predefined_belote_name">Belote</string>
+    <string name="predefined_belote_category">Karten</string>
+    <string name="predefined_belote_description">Klassisches Kartenspiel für vier Spieler</string>
+
+    <!-- Predefined Game: Rummy -->
+    <string name="predefined_rummy_name">Rommé</string>
+    <string name="predefined_rummy_category">Karten</string>
+    <string name="predefined_rummy_description">Karten-Kombinationsspiel</string>
+
+    <!-- Predefined Game: Molkky -->
+    <string name="predefined_molkky_name">Mölkky</string>
+    <string name="predefined_molkky_category">Geschicklichkeit</string>
+    <string name="predefined_molkky_description">Finnisches Geschicklichkeitsspiel mit nummerierten Hölzern</string>
+
+    <!-- Predefined Game: Petanque -->
+    <string name="predefined_petanque_name">Pétanque</string>
+    <string name="predefined_petanque_category">Geschicklichkeit</string>
+    <string name="predefined_petanque_description">Provenzalisches Boule-Spiel</string>
+
+    <!-- Tarot Grid -->
+    <string name="tarot_round">Runde %1$d</string>
+    <string name="tarot_add_round">Runde hinzufügen</string>
+    <string name="tarot_total">GESAMT</string>
+
+    <!-- Rummy Grid -->
+    <string name="rummy_round">Runde %1$d</string>
+    <string name="rummy_add_round">Runde hinzufügen</string>
+    <string name="rummy_total">GESAMT</string>
 </resources>

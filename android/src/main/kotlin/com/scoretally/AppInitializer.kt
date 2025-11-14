@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.startup.Initializer
 import com.scoretally.domain.repository.GameRepository
 import com.scoretally.domain.usecase.InitializePredefinedGamesUseCase
+import com.scoretally.util.ResourceProvider
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 @InstallIn(SingletonComponent::class)
 interface AppInitializerEntryPoint {
     fun gameRepository(): GameRepository
+    fun resourceProvider(): ResourceProvider
 }
 
 class PredefinedGamesInitializer : Initializer<Unit> {
@@ -29,7 +31,8 @@ class PredefinedGamesInitializer : Initializer<Unit> {
         )
 
         val gameRepository = entryPoint.gameRepository()
-        val useCase = InitializePredefinedGamesUseCase(gameRepository)
+        val resourceProvider = entryPoint.resourceProvider()
+        val useCase = InitializePredefinedGamesUseCase(gameRepository, resourceProvider)
 
         // Lancer l'initialisation en arrière-plan
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {

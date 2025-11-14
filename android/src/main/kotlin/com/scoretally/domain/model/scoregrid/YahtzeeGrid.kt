@@ -1,10 +1,12 @@
 package com.scoretally.domain.model.scoregrid
 
+import android.content.Context
+import com.scoretally.R
 import com.scoretally.domain.model.GridCell
 import com.scoretally.domain.model.GridType
 
 data class YahtzeeGrid(
-    override val cells: List<GridCell> = createInitialCells()
+    override val cells: List<GridCell> = emptyList()
 ) : ScoreGrid {
 
     override val type: GridType = GridType.YAHTZEE
@@ -45,24 +47,24 @@ data class YahtzeeGrid(
     }
 
     companion object {
-        fun createInitialCells(): List<GridCell> {
+        fun createInitialCells(context: Context): List<GridCell> {
             val upperSection = listOf(
-                GridCell("ones", "As (1)", null, category = "upper", description = "Somme des 1"),
-                GridCell("twos", "Deux (2)", null, category = "upper", description = "Somme des 2"),
-                GridCell("threes", "Trois (3)", null, category = "upper", description = "Somme des 3"),
-                GridCell("fours", "Quatre (4)", null, category = "upper", description = "Somme des 4"),
-                GridCell("fives", "Cinq (5)", null, category = "upper", description = "Somme des 5"),
-                GridCell("sixes", "Six (6)", null, category = "upper", description = "Somme des 6")
+                GridCell("ones", context.getString(R.string.yahtzee_ones), null, category = "upper"),
+                GridCell("twos", context.getString(R.string.yahtzee_twos), null, category = "upper"),
+                GridCell("threes", context.getString(R.string.yahtzee_threes), null, category = "upper"),
+                GridCell("fours", context.getString(R.string.yahtzee_fours), null, category = "upper"),
+                GridCell("fives", context.getString(R.string.yahtzee_fives), null, category = "upper"),
+                GridCell("sixes", context.getString(R.string.yahtzee_sixes), null, category = "upper")
             )
 
             val lowerSection = listOf(
-                GridCell("three_of_kind", "Brelan", null, category = "lower", description = "3 dés identiques"),
-                GridCell("four_of_kind", "Carré", null, category = "lower", description = "4 dés identiques"),
-                GridCell("full_house", "Full", null, category = "lower", description = "3 + 2 identiques = 25 pts", fixedValue = 25),
-                GridCell("small_straight", "Petite suite", null, category = "lower", description = "4 dés consécutifs = 30 pts", fixedValue = 30),
-                GridCell("large_straight", "Grande suite", null, category = "lower", description = "5 dés consécutifs = 40 pts", fixedValue = 40),
-                GridCell("yahtzee", "Yam's", null, category = "lower", description = "5 dés identiques = 50 pts", fixedValue = 50),
-                GridCell("chance", "Chance", null, category = "lower", description = "Somme de tous les dés")
+                GridCell("three_of_kind", context.getString(R.string.yahtzee_three_of_kind), null, category = "lower"),
+                GridCell("four_of_kind", context.getString(R.string.yahtzee_four_of_kind), null, category = "lower"),
+                GridCell("full_house", context.getString(R.string.yahtzee_full_house), null, category = "lower", fixedValue = 25),
+                GridCell("small_straight", context.getString(R.string.yahtzee_small_straight), null, category = "lower", fixedValue = 30),
+                GridCell("large_straight", context.getString(R.string.yahtzee_large_straight), null, category = "lower", fixedValue = 40),
+                GridCell("yahtzee", context.getString(R.string.yahtzee_yahtzee), null, category = "lower", fixedValue = 50),
+                GridCell("chance", context.getString(R.string.yahtzee_chance), null, category = "lower")
             )
 
             return upperSection + lowerSection

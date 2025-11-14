@@ -126,14 +126,7 @@ class EditGameViewModel @Inject constructor(
     fun updateGame() {
         val state = _uiState.value
 
-        if (state.name.isBlank()) return
-
-        val minPlayers = state.minPlayers.toIntOrNull() ?: 1
-        val maxPlayers = state.maxPlayers.toIntOrNull() ?: minPlayers
-        val duration = state.averageDuration.toIntOrNull() ?: 30
-        val scoreIncrement = state.scoreIncrement.toIntOrNull() ?: 1
-        val diceCount = state.diceCount.toIntOrNull() ?: 1
-        val diceFaces = state.diceFaces.toIntOrNull() ?: 6
+        if (!GameFormParser.isFormValid(state.name)) return
 
         _uiState.value = state.copy(isSaving = true)
 
@@ -141,19 +134,29 @@ class EditGameViewModel @Inject constructor(
             try {
                 val existingGame = gameRepository.getGameById(gameId)
                 if (existingGame != null) {
-                    val updatedGame = existingGame.copy(
-                        name = state.name.trim(),
-                        minPlayers = minPlayers,
-                        maxPlayers = maxPlayers,
-                        averageDuration = duration,
-                        category = state.category.trim(),
-                        description = state.description.trim(),
-                        scoreIncrement = scoreIncrement,
+                    val updatedGame = GameFormParser.buildGame(
+                        name = state.name,
+                        minPlayers = state.minPlayers,
+                        maxPlayers = state.maxPlayers,
+                        averageDuration = state.averageDuration,
+                        category = state.category,
+                        description = state.description,
+                        scoreIncrement = state.scoreIncrement,
                         hasDice = state.hasDice,
-                        diceCount = diceCount,
-                        diceFaces = diceFaces,
+                        diceCount = state.diceCount,
+                        diceFaces = state.diceFaces,
                         allowNegativeScores = state.allowNegativeScores,
-                        lastModifiedAt = System.currentTimeMillis()
+                        gridType = state.gridType
+                    ).copy(
+                        id = existingGame.id,
+                        isPredefined = existingGame.isPredefined,
+                        isComingSoon = existingGame.isComingSoon,
+                        syncId = existingGame.syncId,
+                        lastModifiedAt = System.currentTimeMillis(),
+                        isDeleted = existingGame.isDeleted,
+                        imageUri = existingGame.imageUri,
+                        rating = existingGame.rating,
+                        notes = existingGame.notes
                     )
                     gameRepository.updateGame(updatedGame)
                     _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)

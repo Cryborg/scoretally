@@ -11,4 +11,5 @@ interface PreferencesRepository {
     suspend fun updateTheme(theme: AppTheme)
     suspend fun updateAutoSyncEnabled(enabled: Boolean)
     suspend fun updateLastSyncTimestamp(timestamp: Long)
+    suspend fun updateBggToken(token: String)
 }

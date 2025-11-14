@@ -1,18 +1,16 @@
 package com.scoretally.ui.players
 
-import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.scoretally.R
 import com.scoretally.domain.model.Player
 import com.scoretally.domain.repository.PlayerRepository
+import com.scoretally.domain.usecase.ValidatePlayerNameUseCase
+import com.scoretally.domain.usecase.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +29,7 @@ data class EditPlayerUiState(
 class EditPlayerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val playerRepository: PlayerRepository,
-    @ApplicationContext private val context: Context
+    private val validatePlayerNameUseCase: ValidatePlayerNameUseCase
 ) : ViewModel() {
 
     private val playerId: Long = checkNotNull(savedStateHandle["playerId"])
@@ -85,27 +83,24 @@ class EditPlayerViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val trimmedName = state.name.trim()
-                val existingPlayers = playerRepository.getAllPlayers().first()
-                val nameExists = existingPlayers.any {
-                    it.id != state.playerId && it.name.equals(trimmedName, ignoreCase = true)
+                when (val result = validatePlayerNameUseCase(state.name, excludePlayerId = state.playerId)) {
+                    is ValidationResult.Invalid -> {
+                        _uiState.value = _uiState.value.copy(
+                            isSaving = false,
+                            nameError = result.errorMessage
+                        )
+                        return@launch
+                    }
+                    ValidationResult.Valid -> {
+                        val player = Player(
+                            id = state.playerId,
+                            name = state.name.trim(),
+                            preferredColor = state.preferredColor
+                        )
+                        playerRepository.updatePlayer(player)
+                        _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
+                    }
                 }
-
-                if (nameExists) {
-                    _uiState.value = _uiState.value.copy(
-                        isSaving = false,
-                        nameError = context.getString(R.string.error_player_name_exists)
-                    )
-                    return@launch
-                }
-
-                val player = Player(
-                    id = state.playerId,
-                    name = trimmedName,
-                    preferredColor = state.preferredColor
-                )
-                playerRepository.updatePlayer(player)
-                _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isSaving = false, error = e.message)
             }

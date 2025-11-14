@@ -21,6 +21,8 @@ data class Game(
     val diceFaces: Int = 6,
     val isPredefined: Boolean = false,
     val isComingSoon: Boolean = false,
+    val isFavorite: Boolean = false,
+    val bggId: String? = null,
     val syncId: String = UUID.randomUUID().toString(),
     val lastModifiedAt: Long = System.currentTimeMillis(),
     val isDeleted: Boolean = false

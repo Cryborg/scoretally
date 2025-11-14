@@ -28,6 +28,7 @@ import com.scoretally.R
 import com.scoretally.domain.model.Player
 import com.scoretally.ui.components.EmptyState
 import com.scoretally.ui.components.toComposeColor
+import com.scoretally.ui.theme.LocalThemeResources
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,10 +62,12 @@ fun PlayersScreen(
             }
         }
     ) { padding ->
+        val themeResources = LocalThemeResources.current
+
         Box(modifier = Modifier.fillMaxSize()) {
             // Background image with transparency
             Image(
-                painter = painterResource(R.drawable.bg_players),
+                painter = painterResource(themeResources.bgPlayers),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()

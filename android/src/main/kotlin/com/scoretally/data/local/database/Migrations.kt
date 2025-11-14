@@ -42,3 +42,46 @@ val MIGRATION_9_10 = object : Migration(9, 10) {
         db.execSQL("ALTER TABLE games ADD COLUMN hasDice INTEGER NOT NULL DEFAULT 0")
     }
 }
+
+val MIGRATION_10_11 = object : Migration(10, 11) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Ajouter la colonne bggId à la table games
+        db.execSQL("ALTER TABLE games ADD COLUMN bggId TEXT DEFAULT NULL")
+    }
+}
+
+val MIGRATION_11_12 = object : Migration(11, 12) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Ajouter la colonne isFavorite à la table games
+        db.execSQL("ALTER TABLE games ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0")
+    }
+}
+
+val MIGRATION_12_13 = object : Migration(12, 13) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Mettre à jour les syncId des jeux prédéfinis existants pour utiliser des IDs fixes
+        // Yahtzee / Yam's
+        db.execSQL("""
+            UPDATE games
+            SET syncId = 'predefined-yahtzee'
+            WHERE isPredefined = 1
+            AND gridType = 'YAHTZEE'
+        """)
+
+        // Tarot
+        db.execSQL("""
+            UPDATE games
+            SET syncId = 'predefined-tarot'
+            WHERE isPredefined = 1
+            AND gridType = 'TAROT'
+        """)
+
+        // Rummy / Rami
+        db.execSQL("""
+            UPDATE games
+            SET syncId = 'predefined-rummy'
+            WHERE isPredefined = 1
+            AND gridType = 'RUMMY'
+        """)
+    }
+}

@@ -35,10 +35,11 @@
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
-            <!-- Initialize predefined games -->
+            <!-- Initialize predefined games - désactivé car fait manuellement dans MainActivity -->
             <meta-data
                 android:name="com.scoretally.PredefinedGamesInitializer"
-                android:value="androidx.startup" />
+                android:value="androidx.startup"
+                tools:node="remove" />
         </provider>
     </application>
 

@@ -126,7 +126,7 @@ private fun DiceRollerCard(
             }
 
             if (diceRollResult.results.isNotEmpty()) {
-                Divider()
+                HorizontalDivider()
 
                 Text(
                     text = stringResource(R.string.dice_result),
@@ -247,8 +247,8 @@ private fun FirstPlayerCard(
                     }
                 }
 
-                if (firstPlayerState.winner != null) {
-                    Divider()
+                firstPlayerState.winner?.let { winner ->
+                    HorizontalDivider()
 
                     Surface(
                         color = MaterialTheme.colorScheme.primaryContainer,
@@ -262,7 +262,7 @@ private fun FirstPlayerCard(
                             Text(
                                 text = stringResource(
                                     R.string.first_player_result,
-                                    firstPlayerState.winner!!.name
+                                    winner.name
                                 ),
                                 style = MaterialTheme.typography.headlineSmall,
                                 fontWeight = FontWeight.Bold,

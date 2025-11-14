@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import com.scoretally.ui.games.AddGameScreen
 import com.scoretally.ui.games.EditGameScreen
 import com.scoretally.ui.games.GamesScreen
+import com.scoretally.ui.games.SearchBggScreen
 import com.scoretally.ui.matches.AddMatchScreen
 import com.scoretally.ui.matches.MatchDetailScreen
 import com.scoretally.ui.matches.MatchesScreen
@@ -106,6 +107,13 @@ fun NavGraph(
             )
         }
 
+        composable(Screen.SearchBgg.route) {
+            SearchBggScreen(
+                onBack = { navController.popBackStack() },
+                onGameSaved = { navController.popBackStack() }
+            )
+        }
+
         composable(
             route = Screen.EditGame.route,
             arguments = listOf(navArgument("gameId") { type = NavType.LongType })
@@ -141,26 +149,6 @@ fun NavGraph(
         }
 
         composable(
-            route = Screen.GameDetail.route,
-            arguments = listOf(navArgument("gameId") { type = NavType.LongType })
-        ) {
-            PlaceholderScreen(
-                title = stringResource(R.string.game_detail),
-                onBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(
-            route = Screen.PlayerDetail.route,
-            arguments = listOf(navArgument("playerId") { type = NavType.LongType })
-        ) {
-            PlaceholderScreen(
-                title = stringResource(R.string.player_detail),
-                onBack = { navController.popBackStack() }
-            )
-        }
-
-        composable(
             route = Screen.EditPlayer.route,
             arguments = listOf(navArgument("playerId") { type = NavType.LongType })
         ) {
@@ -183,46 +171,6 @@ fun NavGraph(
             SettingsScreen(
                 onBack = { navController.popBackStack() }
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PlaceholderScreen(
-    title: String,
-    onBack: () -> Unit
-) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(title) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.cd_back))
-                    }
-                }
-            )
-        }
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Text(
-                    stringResource(R.string.placeholder_message),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                Button(onClick = onBack) {
-                    Text(stringResource(R.string.back))
-                }
-            }
         }
     }
 }

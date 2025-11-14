@@ -7,7 +7,7 @@ import com.scoretally.domain.repository.MatchPlayerRepository
 import com.scoretally.domain.repository.MatchRepository
 import com.scoretally.domain.repository.PlayerRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.transform
 import javax.inject.Inject
 
 class GetMatchWithDetailsUseCase @Inject constructor(
@@ -18,16 +18,30 @@ class GetMatchWithDetailsUseCase @Inject constructor(
 ) {
     operator fun invoke(matchId: Long): Flow<MatchWithDetails?> {
         return matchPlayerRepository.getPlayersByMatch(matchId)
-            .combine(kotlinx.coroutines.flow.flowOf(Unit)) { matchPlayers, _ ->
-                val match = matchRepository.getMatchById(matchId) ?: return@combine null
-                val game = gameRepository.getGameById(match.gameId) ?: return@combine null
+            .transform { matchPlayers ->
+                val match = matchRepository.getMatchById(matchId)
+                if (match == null) {
+                    emit(null)
+                    return@transform
+                }
 
-                val playerScores = matchPlayers.map { matchPlayer ->
+                val game = gameRepository.getGameById(match.gameId)
+                if (game == null) {
+                    emit(null)
+                    return@transform
+                }
+
+                val playerScores = mutableListOf<PlayerScore>()
+                for (matchPlayer in matchPlayers) {
                     val player = playerRepository.getPlayerById(matchPlayer.playerId)
-                    PlayerScore(matchPlayer, player ?: return@combine null)
-                }.sortedBy { it.matchPlayer.rank }
+                    if (player == null) {
+                        emit(null)
+                        return@transform
+                    }
+                    playerScores.add(PlayerScore(matchPlayer, player))
+                }
 
-                MatchWithDetails(match, game, playerScores)
+                emit(MatchWithDetails(match, game, playerScores.sortedBy { it.matchPlayer.rank }))
             }
     }
 }

@@ -9,7 +9,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -23,9 +25,26 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = SoftBlue,
+    onPrimary = Color.White,
+    primaryContainer = SoftCyan,
+    onPrimaryContainer = Color(0xFF004D66),
+    secondary = SoftLavender,
+    onSecondary = Color.White,
+    secondaryContainer = SoftMint,
+    onSecondaryContainer = Color(0xFF2D5A4A),
+    tertiary = SoftRose,
+    onTertiary = Color.White,
+    tertiaryContainer = SoftPeach,
+    onTertiaryContainer = Color(0xFF664033),
+    background = LightBg,
+    onBackground = Color(0xFF1A1C1E),
+    surface = LightSurface,
+    onSurface = Color(0xFF1A1C1E),
+    surfaceVariant = LightSurfaceVariant,
+    onSurfaceVariant = Color(0xFF44474E),
+    outline = SoftSage,
+    outlineVariant = Color(0xFFCAC4D0)
 )
 
 private val CartoonColorScheme = lightColorScheme(
@@ -71,6 +90,7 @@ fun ScoreTallyTheme(
     }
 
     val isLightTheme = theme == AppTheme.CARTOON || !darkTheme
+    val themeResources = getThemeResources(theme, darkTheme)
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -81,9 +101,11 @@ fun ScoreTallyTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(LocalThemeResources provides themeResources) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

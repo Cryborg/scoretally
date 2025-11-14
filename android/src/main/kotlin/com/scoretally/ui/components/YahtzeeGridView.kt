@@ -38,8 +38,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.scoretally.R
 import com.scoretally.domain.model.PlayerScore
 import com.scoretally.domain.model.scoregrid.YahtzeeGrid
 
@@ -103,7 +105,7 @@ fun YahtzeeMultiPlayerGridView(
 
         // Section supérieure
         Text(
-            text = "SECTION SUPÉRIEURE",
+            text = stringResource(R.string.yahtzee_upper_section),
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -136,12 +138,12 @@ fun YahtzeeMultiPlayerGridView(
             ) {
                 Column {
                     Text(
-                        text = "Total sup.",
+                        text = stringResource(R.string.yahtzee_upper_total),
                         style = MaterialTheme.typography.bodySmall,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Bonus (≥63)",
+                        text = stringResource(R.string.yahtzee_bonus),
                         style = MaterialTheme.typography.bodySmall,
                         fontSize = 10.sp
                     )
@@ -179,7 +181,7 @@ fun YahtzeeMultiPlayerGridView(
 
         // Section inférieure
         Text(
-            text = "SECTION INFÉRIEURE",
+            text = stringResource(R.string.yahtzee_lower_section),
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.secondaryContainer)
@@ -211,7 +213,7 @@ fun YahtzeeMultiPlayerGridView(
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = "TOTAL",
+                    text = stringResource(R.string.yahtzee_total),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )

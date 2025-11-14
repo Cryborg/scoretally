@@ -6,6 +6,9 @@ import com.scoretally.data.local.dao.GameDao
 import com.scoretally.data.local.dao.MatchDao
 import com.scoretally.data.local.dao.MatchPlayerDao
 import com.scoretally.data.local.dao.PlayerDao
+import com.scoretally.data.local.database.MIGRATION_10_11
+import com.scoretally.data.local.database.MIGRATION_11_12
+import com.scoretally.data.local.database.MIGRATION_12_13
 import com.scoretally.data.local.database.MIGRATION_2_3
 import com.scoretally.data.local.database.MIGRATION_8_9
 import com.scoretally.data.local.database.MIGRATION_9_10
@@ -29,7 +32,7 @@ object DatabaseModule {
             ScoreTallyDatabase::class.java,
             "scoretally_database"
         )
-        .addMigrations(MIGRATION_2_3, MIGRATION_8_9, MIGRATION_9_10)
+        .addMigrations(MIGRATION_2_3, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13)
         .fallbackToDestructiveMigration()
         .build()
     }

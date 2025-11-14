@@ -27,13 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.scoretally.R
 import com.scoretally.domain.model.GridType
 import com.scoretally.domain.model.PlayerScore
+import com.scoretally.domain.model.scoregrid.RummyGrid
+import com.scoretally.domain.model.scoregrid.TarotGrid
 import com.scoretally.domain.model.scoregrid.YahtzeeGrid
-import com.scoretally.ui.components.DiceRollerDialog
-import com.scoretally.ui.components.FirstPlayerDialog
-import com.scoretally.ui.components.NumberField
-import com.scoretally.ui.components.PlayerGrid
-import com.scoretally.ui.components.YahtzeeMultiPlayerGridView
-import com.scoretally.ui.components.toComposeColor
+import com.scoretally.ui.components.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
@@ -122,6 +119,24 @@ fun MatchDetailScreen(
                             matchDetails = matchDetails,
                             grids = uiState.grids,
                             onCellUpdate = viewModel::updateGridCell,
+                            modifier = Modifier.padding(padding)
+                        )
+                    }
+                    GridType.TAROT -> {
+                        TarotMatchView(
+                            matchDetails = matchDetails,
+                            grids = uiState.grids,
+                            onCellUpdate = viewModel::updateGridCell,
+                            onAddRound = viewModel::addTarotRound,
+                            modifier = Modifier.padding(padding)
+                        )
+                    }
+                    GridType.RUMMY -> {
+                        RummyMatchView(
+                            matchDetails = matchDetails,
+                            grids = uiState.grids,
+                            onCellUpdate = viewModel::updateGridCell,
+                            onAddRound = viewModel::addRummyRound,
                             modifier = Modifier.padding(padding)
                         )
                     }
@@ -370,5 +385,51 @@ fun EditScoreDialog(
                 Text(stringResource(R.string.cancel))
             }
         }
+    )
+}
+
+@Composable
+fun TarotMatchView(
+    matchDetails: com.scoretally.domain.model.MatchWithDetails,
+    grids: Map<Long, com.scoretally.domain.model.scoregrid.ScoreGrid>,
+    onCellUpdate: (Long, String, Int?) -> Unit,
+    onAddRound: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val playerGrids = matchDetails.playerScores.mapNotNull { playerScore ->
+        val grid = grids[playerScore.matchPlayer.id] as? TarotGrid
+        if (grid != null) {
+            PlayerTarotGrid(playerScore = playerScore, grid = grid)
+        } else null
+    }
+
+    TarotMultiPlayerGridView(
+        playerGrids = playerGrids,
+        onCellUpdate = onCellUpdate,
+        onAddRound = onAddRound,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun RummyMatchView(
+    matchDetails: com.scoretally.domain.model.MatchWithDetails,
+    grids: Map<Long, com.scoretally.domain.model.scoregrid.ScoreGrid>,
+    onCellUpdate: (Long, String, Int?) -> Unit,
+    onAddRound: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val playerGrids = matchDetails.playerScores.mapNotNull { playerScore ->
+        val grid = grids[playerScore.matchPlayer.id] as? RummyGrid
+        if (grid != null) {
+            PlayerRummyGrid(playerScore = playerScore, grid = grid)
+        } else null
+    }
+
+    RummyMultiPlayerGridView(
+        playerGrids = playerGrids,
+        onCellUpdate = onCellUpdate,
+        onAddRound = onAddRound,
+        modifier = modifier
     )
 }

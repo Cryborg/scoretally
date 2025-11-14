@@ -30,6 +30,7 @@ class PreferencesRepositoryImpl @Inject constructor(
         val THEME = stringPreferencesKey("theme")
         val AUTO_SYNC_ENABLED = booleanPreferencesKey("auto_sync_enabled")
         val LAST_SYNC_TIMESTAMP = longPreferencesKey("last_sync_timestamp")
+        val BGG_TOKEN = stringPreferencesKey("bgg_token")
     }
 
     override val userPreferences: Flow<UserPreferences> = context.dataStore.data
@@ -42,7 +43,8 @@ class PreferencesRepositoryImpl @Inject constructor(
                     preferences[PreferencesKeys.THEME] ?: AppTheme.SYSTEM.name
                 ),
                 autoSyncEnabled = preferences[PreferencesKeys.AUTO_SYNC_ENABLED] ?: true,
-                lastSyncTimestamp = preferences[PreferencesKeys.LAST_SYNC_TIMESTAMP] ?: 0
+                lastSyncTimestamp = preferences[PreferencesKeys.LAST_SYNC_TIMESTAMP] ?: 0,
+                bggToken = preferences[PreferencesKeys.BGG_TOKEN] ?: ""
             )
         }
 
@@ -67,6 +69,12 @@ class PreferencesRepositoryImpl @Inject constructor(
     override suspend fun updateLastSyncTimestamp(timestamp: Long) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.LAST_SYNC_TIMESTAMP] = timestamp
+        }
+    }
+
+    override suspend fun updateBggToken(token: String) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.BGG_TOKEN] = token
         }
     }
 }

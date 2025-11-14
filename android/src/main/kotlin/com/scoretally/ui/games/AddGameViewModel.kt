@@ -2,8 +2,8 @@ package com.scoretally.ui.games
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.scoretally.domain.model.Game
-import com.scoretally.domain.model.GridType
+import com.scoretally.data.remote.bgg.dto.BggSearchItem
+import com.scoretally.domain.repository.BggRepository
 import com.scoretally.domain.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,12 +25,16 @@ data class AddGameUiState(
     val diceFaces: String = "6",
     val allowNegativeScores: Boolean = true,
     val isSaving: Boolean = false,
-    val isSaved: Boolean = false
+    val isSaved: Boolean = false,
+    val bggSearchResults: List<BggSearchItem>? = null,
+    val isSearchingBgg: Boolean = false,
+    val bggSearchError: String? = null
 )
 
 @HiltViewModel
 class AddGameViewModel @Inject constructor(
-    private val gameRepository: GameRepository
+    private val gameRepository: GameRepository,
+    private val bggRepository: BggRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddGameUiState())
@@ -83,32 +87,24 @@ class AddGameViewModel @Inject constructor(
     fun saveGame() {
         val state = _uiState.value
 
-        if (state.name.isBlank()) return
-
-        val minPlayers = state.minPlayers.toIntOrNull() ?: 1
-        val maxPlayers = state.maxPlayers.toIntOrNull() ?: minPlayers
-        val duration = state.averageDuration.toIntOrNull() ?: 30
-        val scoreIncrement = state.scoreIncrement.toIntOrNull() ?: 1
-        val diceCount = state.diceCount.toIntOrNull() ?: 1
-        val diceFaces = state.diceFaces.toIntOrNull() ?: 6
+        if (!GameFormParser.isFormValid(state.name)) return
 
         _uiState.value = state.copy(isSaving = true)
 
         viewModelScope.launch {
             try {
-                val game = Game(
-                    name = state.name.trim(),
-                    minPlayers = minPlayers,
-                    maxPlayers = maxPlayers,
-                    averageDuration = duration,
-                    category = state.category.trim(),
-                    description = state.description.trim(),
-                    scoreIncrement = scoreIncrement,
+                val game = GameFormParser.buildGame(
+                    name = state.name,
+                    minPlayers = state.minPlayers,
+                    maxPlayers = state.maxPlayers,
+                    averageDuration = state.averageDuration,
+                    category = state.category,
+                    description = state.description,
+                    scoreIncrement = state.scoreIncrement,
                     hasDice = state.hasDice,
-                    diceCount = diceCount,
-                    diceFaces = diceFaces,
-                    allowNegativeScores = state.allowNegativeScores,
-                    gridType = GridType.STANDARD
+                    diceCount = state.diceCount,
+                    diceFaces = state.diceFaces,
+                    allowNegativeScores = state.allowNegativeScores
                 )
                 gameRepository.insertGame(game)
                 _uiState.value = _uiState.value.copy(isSaving = false, isSaved = true)
@@ -116,5 +112,64 @@ class AddGameViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(isSaving = false)
             }
         }
+    }
+
+    fun searchBgg(query: String) {
+        if (query.isBlank()) return
+
+        _uiState.value = _uiState.value.copy(isSearchingBgg = true, bggSearchError = null)
+
+        viewModelScope.launch {
+            val result = bggRepository.searchGames(query)
+            result.fold(
+                onSuccess = { items ->
+                    _uiState.value = _uiState.value.copy(
+                        bggSearchResults = items,
+                        isSearchingBgg = false
+                    )
+                },
+                onFailure = { error ->
+                    _uiState.value = _uiState.value.copy(
+                        isSearchingBgg = false,
+                        bggSearchError = error.message ?: "Unknown error"
+                    )
+                }
+            )
+        }
+    }
+
+    fun selectBggGame(bggId: String) {
+        _uiState.value = _uiState.value.copy(isSearchingBgg = true)
+
+        viewModelScope.launch {
+            val result = bggRepository.getGameDetails(bggId)
+            result.fold(
+                onSuccess = { game ->
+                    _uiState.value = _uiState.value.copy(
+                        name = game.name,
+                        minPlayers = game.minPlayers.toString(),
+                        maxPlayers = game.maxPlayers.toString(),
+                        averageDuration = game.averageDuration.toString(),
+                        category = game.category,
+                        description = game.description,
+                        bggSearchResults = null,
+                        isSearchingBgg = false
+                    )
+                },
+                onFailure = { error ->
+                    _uiState.value = _uiState.value.copy(
+                        isSearchingBgg = false,
+                        bggSearchError = error.message ?: "Unknown error"
+                    )
+                }
+            )
+        }
+    }
+
+    fun dismissBggSearch() {
+        _uiState.value = _uiState.value.copy(
+            bggSearchResults = null,
+            bggSearchError = null
+        )
     }
 }

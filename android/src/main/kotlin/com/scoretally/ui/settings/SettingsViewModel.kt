@@ -10,6 +10,7 @@ import com.scoretally.domain.model.UserPreferences
 import com.scoretally.domain.repository.GoogleAuthRepository
 import com.scoretally.domain.repository.PreferencesRepository
 import com.scoretally.domain.sync.SyncManager
+import com.scoretally.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,7 +30,7 @@ class SettingsViewModel @Inject constructor(
     val userPreferences: StateFlow<UserPreferences> = preferencesRepository.userPreferences
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
+            started = SharingStarted.WhileSubscribed(Constants.STATE_FLOW_TIMEOUT_MILLIS),
             initialValue = UserPreferences()
         )
 
@@ -96,7 +97,7 @@ class SettingsViewModel @Inject constructor(
             try {
                 syncManager.triggerManualSync()
                 // Attendre un peu pour que le worker ait le temps de s'exécuter
-                kotlinx.coroutines.delay(2000)
+                kotlinx.coroutines.delay(Constants.SYNC_WORKER_DELAY_MILLIS)
                 _isSyncing.value = false
             } catch (e: Exception) {
                 _syncError.value = e.message

@@ -2,11 +2,13 @@ package com.scoretally.domain.model
 
 enum class GridType {
     STANDARD,
-    YAHTZEE;
+    YAHTZEE,
+    TAROT,
+    RUMMY;
 
     companion object {
         fun fromString(value: String): GridType {
-            return values().find { it.name == value } ?: STANDARD
+            return entries.find { it.name == value } ?: STANDARD
         }
     }
 }

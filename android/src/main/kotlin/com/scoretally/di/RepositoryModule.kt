@@ -1,10 +1,12 @@
 package com.scoretally.di
 
+import com.scoretally.data.repository.BggRepositoryImpl
 import com.scoretally.data.repository.GameRepositoryImpl
 import com.scoretally.data.repository.MatchPlayerRepositoryImpl
 import com.scoretally.data.repository.MatchRepositoryImpl
 import com.scoretally.data.repository.PlayerRepositoryImpl
 import com.scoretally.data.repository.PreferencesRepositoryImpl
+import com.scoretally.domain.repository.BggRepository
 import com.scoretally.domain.repository.GameRepository
 import com.scoretally.domain.repository.MatchPlayerRepository
 import com.scoretally.domain.repository.MatchRepository
@@ -49,4 +51,10 @@ abstract class RepositoryModule {
     abstract fun bindPreferencesRepository(
         preferencesRepositoryImpl: PreferencesRepositoryImpl
     ): PreferencesRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindBggRepository(
+        bggRepositoryImpl: BggRepositoryImpl
+    ): BggRepository
 }

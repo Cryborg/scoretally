@@ -116,7 +116,7 @@ fun LanguageSelector(
             onExpandedChange = { expanded = it }
         ) {
             OutlinedTextField(
-                value = getLanguageName(currentLanguage),
+                value = getLanguageNameWithFlag(currentLanguage),
                 onValueChange = {},
                 readOnly = true,
                 modifier = Modifier
@@ -132,16 +132,14 @@ fun LanguageSelector(
             ) {
                 AppLanguage.entries.forEach { language ->
                     DropdownMenuItem(
-                        text = { Text(getLanguageName(language)) },
+                        text = { Text(getLanguageNameWithFlag(language)) },
                         onClick = {
                             onLanguageSelected(language)
                             expanded = false
                         },
-                        leadingIcon = {
+                        trailingIcon = {
                             if (language == currentLanguage) {
                                 Icon(Icons.Default.Check, contentDescription = null)
-                            } else {
-                                Spacer(modifier = Modifier.width(24.dp))
                             }
                         }
                     )
@@ -217,6 +215,23 @@ fun getLanguageName(language: AppLanguage): String {
         AppLanguage.GERMAN -> stringResource(R.string.settings_language_german)
         AppLanguage.ITALIAN -> stringResource(R.string.settings_language_italian)
     }
+}
+
+@Composable
+fun getLanguageFlag(language: AppLanguage): String {
+    return when (language) {
+        AppLanguage.SYSTEM -> "🌐"
+        AppLanguage.ENGLISH -> "🇬🇧"
+        AppLanguage.FRENCH -> "🇫🇷"
+        AppLanguage.SPANISH -> "🇪🇸"
+        AppLanguage.GERMAN -> "🇩🇪"
+        AppLanguage.ITALIAN -> "🇮🇹"
+    }
+}
+
+@Composable
+fun getLanguageNameWithFlag(language: AppLanguage): String {
+    return "${getLanguageFlag(language)} ${getLanguageName(language)}"
 }
 
 @Composable

@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,6 +44,7 @@ fun GameForm(
     isSaving: Boolean,
     canSave: Boolean,
     saveButtonText: String,
+    onSearchBgg: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     isPredefined: Boolean = false
 ) {
@@ -58,7 +61,18 @@ fun GameForm(
             label = { Text(stringResource(R.string.add_game_name_label)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = !isSaving,
-            singleLine = true
+            singleLine = true,
+            trailingIcon = if (onSearchBgg != null && name.isNotBlank()) {
+                {
+                    IconButton(onClick = onSearchBgg) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = stringResource(R.string.search_bgg),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            } else null
         )
 
         Row(
@@ -180,11 +194,11 @@ fun GameForm(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Autoriser les scores négatifs",
+                    text = stringResource(R.string.game_allow_negative_scores_label),
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    text = "Les joueurs pourront avoir des scores < 0",
+                    text = stringResource(R.string.game_allow_negative_scores_description),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

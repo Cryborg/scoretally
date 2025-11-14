@@ -41,7 +41,10 @@ class AddMatchViewModel @Inject constructor(
                 gameRepository.getAllGames(),
                 playerRepository.getAllPlayers()
             ) { games, players ->
-                _uiState.value.copy(games = games, players = players)
+                _uiState.value.copy(
+                    games = games.filter { !it.isComingSoon },
+                    players = players
+                )
             }.collect { state ->
                 _uiState.value = state
             }

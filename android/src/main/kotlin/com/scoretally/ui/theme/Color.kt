@@ -14,6 +14,20 @@ val ScoreTallyPrimary = Color(0xFF6750A4)
 val ScoreTallySecondary = Color(0xFF625B71)
 val ScoreTallyTertiary = Color(0xFF7D5260)
 
+// Light Theme - Soft Pastel Colors
+val SoftBlue = Color(0xFF7BA7D9)
+val SoftCyan = Color(0xFF87CEEB)
+val SoftLavender = Color(0xFFB8A7D9)
+val SoftMint = Color(0xFF98D9C2)
+val SoftPeach = Color(0xFFFFD4B8)
+val SoftRose = Color(0xFFFFB8C6)
+val SoftSage = Color(0xFFB8D9B8)
+
+// Light Background Colors
+val LightBg = Color(0xFFFAFAFA)
+val LightSurface = Color(0xFFFFFFFF)
+val LightSurfaceVariant = Color(0xFFF0F0F0)
+
 // Cartoon Theme Colors - Vibrant and Fun! 🎨
 val CartoonOrange = Color(0xFFFF6B35)
 val CartoonYellow = Color(0xFFFFC145)

@@ -62,10 +62,17 @@ class FirestoreSyncRepository @Inject constructor(
 
         snapshot.documents.forEach { doc ->
             val remotePlayer = doc.toPlayerDto() ?: return@forEach
-            val localPlayer = playerDao.getPlayerBySyncId(remotePlayer.syncId)
+
+            // D'abord essayer de trouver par syncId (cas normal)
+            var localPlayer = playerDao.getPlayerBySyncId(remotePlayer.syncId)
+
+            // Si pas trouvé par syncId, chercher par nom pour éviter les doublons
+            if (localPlayer == null && !remotePlayer.isDeleted) {
+                localPlayer = playerDao.getPlayerByName(remotePlayer.name)
+            }
 
             when {
-                // Nouveau joueur distant
+                // Nouveau joueur distant (pas de match par syncId ni par nom)
                 localPlayer == null && !remotePlayer.isDeleted -> {
                     playerDao.insertPlayer(remotePlayer.toDomain().toEntity())
                 }

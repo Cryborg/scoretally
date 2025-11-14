@@ -1,213 +1,244 @@
 # ScoreTally - Fonctionnalités Futures
 
-Ce document regroupe les idées de fonctionnalités à implémenter dans les futures versions de ScoreTally.
-
-**Légende** :
-- ✅ : Fonctionnalité implémentée
-- ⏳ : Fonctionnalité en cours ou partiellement implémentée
-- 🔜 : Fonctionnalité prévue pour la prochaine version
-- 💡 : Idée pour versions futures
-
-## 🎮 Modes de jeu (Core Feature - À implémenter en priorité)
-
-### Mode Comptage Rapide (Quick Score)
-Interface minimaliste pour des parties rapides sans configuration préalable :
-- **Interface simplifiée** :
-  - Bouton `+` et `-` pour chaque joueur
-  - Bouton "Ajouter joueur" en un clic
-  - Pas besoin de créer un jeu en amont
-  - Pas de sélection de jeu obligatoire
-- **Joueurs à la volée** :
-  - Nommer les joueurs directement dans l'interface
-  - Option de lier à un joueur existant de la liste (autocomplete)
-  - Ou créer un joueur temporaire pour cette session
-- **Sauvegarde optionnelle** :
-  - À la fin, possibilité de sauvegarder la partie dans l'historique
-  - Associer à un jeu si souhaité
-- **Use case** : Parties improvisées, comptage rapide sans setup
-
-### Mode Complet
-Toutes les fonctionnalités de ScoreTally :
-- Sélection du jeu depuis la ludothèque
-- Sélection des joueurs depuis la liste
-- Historique détaillé
-- Statistiques complètes
-- Export de données
-- Notes et détails de partie
-
-### Mode Personnalisé (V2+)
-Permettre à l'utilisateur de configurer l'interface selon ses besoins :
-- **Tableau de bord configurable** :
-  - Activer/Désactiver des sections (statistiques, historique, ludothèque)
-  - Réorganiser les onglets du bottom nav
-  - Choisir l'écran d'accueil par défaut
-- **Features toggles** :
-  - Activer/Désactiver les outils (dés, "qui commence")
-  - Masquer les fonctionnalités non utilisées
-  - Mode "Joueurs uniquement" ou "Jeux uniquement" si un seul aspect intéresse l'utilisateur
-- **Templates de workflow** :
-  - "Mode soirée jeux" (ludothèque + parties)
-  - "Mode compétition" (statistiques + classements)
-  - "Mode minimaliste" (comptage rapide uniquement)
-
-### Sélection du mode
-- **Premier lancement** : Assistant pour choisir le mode par défaut
-- **Changement à tout moment** : Toggle dans les paramètres
-- **Suggestion contextuelle** : L'app peut suggérer le mode adapté selon l'usage
-
-## 👥 Gestion des joueurs (Core Feature - À implémenter en priorité)
-
-### Liste commune de joueurs
-- **Base de données centralisée** : Liste de joueurs réutilisable pour toutes les parties
-- **Liaison sélective** : Lors de la création d'une partie :
-  - Sélectionner le jeu
-  - Choisir parmi la liste des joueurs existants ceux qui participent à cette partie
-  - Pas obligatoire de tous les inclure, seulement ceux présents
-  - Possibilité d'ajouter un nouveau joueur à la volée
-- **Avantages** :
-  - Pas besoin de recréer les joueurs à chaque partie
-  - Statistiques persistantes par joueur
-  - Historique complet des parties de chaque joueur
-- **Flow UX** :
-  1. Créer/Importer des joueurs dans la ludothèque de joueurs
-  2. Lors d'une nouvelle partie, cocher ceux qui jouent
-  3. Saisir les scores pour ces joueurs uniquement
-
-## 🎲 Outils de jeu
-
-### Lanceur de dés
-- Interface pour lancer des dés virtuels
-- Paramètres :
-  - Nombre de dés (1-10)
-  - Nombre de faces (4, 6, 8, 10, 12, 20, 100)
-- Affichage animé du résultat
-- Historique des derniers lancers
-- Option de relancer
-- Sons de dés (optionnel, avec toggle)
-
-### Qui commence ?
-- Outil pour déterminer aléatoirement qui commence la partie
-- Deux modes :
-  1. **Mode Joueurs** : Sélection parmi les joueurs de la partie
-  2. **Mode Fun** : Phrases rigolotes aléatoires
-     - "Celui/Celle qui a les cheveux les plus courts"
-     - "Celui/Celle qui a les cheveux les plus longs"
-     - "Le/La plus petit(e)"
-     - "Le/La plus grand(e)"
-     - "Celui/Celle qui a le plus ri aujourd'hui"
-     - "Le dernier/La dernière arrivé(e)"
-     - "Celui/Celle qui a mangé le plus de pizza cette semaine"
-     - "Le/La plus bavard(e)"
-     - etc.
-- Animation de "roue de la fortune" ou tirage au sort
-- Possibilité d'ajouter ses propres phrases personnalisées
-
 ## 📚 Ludothèque étendue
 
-### Gestion des jeux
-État actuel de la bibliothèque de jeux :
+### Nouvelles grilles spéciales
+- Tarot (avec gestion des contrats, bouts, poignées)
+- Belote (avec annonces, capot, générale)
+- Rami (avec séries, brelans, points négatifs)
+- Mille bornes (avec bottes, salade, coups fourrés)
+- Pétanque (parties en 13 ou autre, mènes)
+- Mölkky (barrage des 50 points, retour à 25)
+- Scrabble (avec multiplicateurs de lettres/mots)
+- Coinche/Contrée
+- 421 (avec gestion des jetons/vies)
+- Skipbo, Uno, 8 américain
 
-- ✅ **Créer et lister des jeux**
-- ✅ **Champs de base** : nom, min/max joueurs, durée moyenne
-- ✅ **Champs secondaires** : catégorie, description, notes
-- ✅ **Score increment configurable** : Incrément par défaut pour le comptage des scores
-- ⏳ **Image personnalisée** : Upload/sélection d'une image pour chaque jeu
-- ⏳ **Système de notation** : Notes sur 5 étoiles
-- ⏳ **Métadonnées enrichies** :
-  - Éditeur
-  - Année de sortie
-  - Complexité (1-5)
-  - Type de jeu (coopératif, compétitif, solo, etc.)
-  - Temps de setup
-  - Extensions possédées
-- ⏳ **Wishlist** : Marquer des jeux comme "à acheter"
-- ⏳ **Lieu de stockage** : Où le jeu est rangé physiquement
-- ⏳ **État** : Possédé / Emprunté / Prêté (avec à qui)
-
-### Intégration BoardGameGeek (future)
+### Intégration BoardGameGeek
 - Import automatique des infos depuis BGG
-- Sync des notes et commentaires
+- Note du jeu
 - Recherche dans la base BGG
+- Téléchargement de l'image du jeu
+
+### Gestion avancée des jeux
+- Variantes et règles personnalisées par jeu
+- Extension de jeux (ex: extensions de jeux de plateau)
+- Jeux favoris / récents en accès rapide
+- Catégorisation personnalisée (apéro, soirée, famille, expert...)
+- Import/Export de configurations de jeux
+
+## 📊 Statistiques & Analyses
+
+### Statistiques globales
+- Graphiques d'évolution des scores par joueur
+- Taux de victoire par joueur et par jeu
+- Temps moyen de partie par jeu
+- Nombre de parties jouées par période (jour/semaine/mois)
+- Meilleur score / Pire score par jeu
+- Séries de victoires / défaites
+- Classement ELO par jeu
+
+### Statistiques par joueur
+- Jeux préférés (les plus joués)
+- Adversaires les plus fréquents
+- Évolution du niveau dans le temps
+- Comparaison entre joueurs
+- Podiums (1er/2ème/3ème places)
+
+### Rapports et exports
+- Export PDF des statistiques
+- Export Excel/CSV des parties
+- Graphiques personnalisables
+- Rapport annuel de l'année écoulée
+
+## 🏆 Tournois & Événements
+
+### Gestion de tournois
+- Création de tournois multi-parties
+- Formats: élimination directe, poules, suisse
+- Brackets automatiques
+- Calcul automatique des classements
+- Gestion des bye rounds
+- Timer par round
+
+### Événements récurrents
+- Soirées jeux hebdomadaires
+- Championnats mensuels
+- Templates d'événements réutilisables
 
 ## 🎨 Interface & UX
 
-### Thèmes UI personnalisables
-- **Thèmes de base** :
-  - ✅ Thème par défaut (Material 3 avec Dynamic Color)
-  - ✅ Thème sombre / clair avec détection système
-  - ✅ Sélection manuelle dans les paramètres
-  - ✅ Application immédiate du changement de thème
-  - ⏳ Thèmes colorés additionnels : Bleu, Vert, Rouge, Orange, Rose
-  - ⏳ Thèmes "jeux" : Bois/vintage, Minimaliste, Coloré/ludique
-- **Personnalisation avancée** (à venir) :
-  - Sélection de couleur primaire/secondaire
-  - Choix du mode d'accentuation
-  - Prévisualisation en temps réel
-  - Sauvegarde de plusieurs thèmes personnalisés
-- **Application contextuelle** (à venir) :
-  - Thème différent par jeu (optionnel)
-  - Thème nuit automatique selon l'heure
-- **Autres personnalisations** (à venir) :
-  - Polices de caractères alternatives
-  - Taille de police (accessibilité)
-  - Espacement et densité de l'UI
-  - Forme des cartes (arrondies, carrées, etc.)
+### Personnalisation
+- Thèmes de couleurs personnalisés
+- Choix d'avatars pour les joueurs
+- Photos de profil pour les joueurs
+- Fond d'écran personnalisable
+- Taille de police ajustable
+- Mode gaucher / droitier
 
-### ✅ Internationalisation (i18n) - IMPLÉMENTÉE
-- **Langues supportées** :
-  - 🇬🇧 Anglais (par défaut)
-  - 🇫🇷 Français
-  - 🇪🇸 Espagnol
-  - 🇩🇪 Allemand
-  - 🇮🇹 Italien
-  - + Autres langues selon la demande (à venir)
-- **Éléments traduits** :
-  - ✅ Interface complète (boutons, menus, messages)
-  - ✅ Toutes les chaînes de caractères de l'application
-  - ⏳ Messages d'erreur et notifications (à compléter)
-  - ⏳ Aide et tutoriels (à venir)
-- **Gestion** :
-  - ✅ Détection automatique de la langue système
-  - ✅ Sélection manuelle dans les paramètres
-  - ✅ Fichiers de ressources strings.xml multilingues
-  - ✅ Application immédiate du changement de langue
-- **Formats localisés** (à venir) :
-  - Dates et heures selon la locale
-  - Formats de nombres et durées
-  - Monnaies (si fonctionnalité prix des jeux ajoutée)
-
-### Autres améliorations UX
-- Widgets pour l'écran d'accueil Android
+### Améliorations UX
 - Animations et transitions fluides
-- Mode compact pour petits écrans
 - Support tablettes avec layout adaptatif
+- Mode paysage optimisé
+- Gestes tactiles (swipe pour supprimer, etc.)
+- Raccourcis clavier Bluetooth
+- Support stylet pour la saisie
 
-### Partage social
-- Partage des résultats de partie (image générée)
-- Export des statistiques en PDF
-- Partage de la ludothèque
+### Accessibilité
+- Mode daltonien (différents types)
+- Contraste élevé
+- Narration vocale des scores
+- Agrandissement de texte
+- Feedback haptique personnalisable
 
-## 📊 Statistiques avancées
+## ⏱️ Chronomètre & Temps
 
-- Graphiques de progression par joueur
-- Heatmap des jours de jeu
-- Prédictions de victoire basées sur l'historique
-- "Némésis" : joueur contre qui on perd le plus
-- "Lucky charm" : joueur avec qui on gagne le plus
+### Timer intégré
+- Chronomètre par partie
+- Minuteur par tour/joueur
+- Alarmes personnalisables
+- Temps total de jeu automatique
+- Pause/Reprise des parties
+- Historique des durées par jeu
+
+### Rappels
+- Rappel de parties en cours
+- "À qui le tour ?" avec notification
+- Temps de réflexion max paramétrable
+
+## 📸 Médias & Souvenirs
+
+### Photos de parties
+- Photo de la table/plateau en début de partie
+- Photo du gagnant
+- Galerie photos par partie
+- Albums de soirées jeux
+- Annotations sur les photos
+
+### Notes & Commentaires
+- Notes vocales sur les parties
+- Anecdotes mémorables
+- Tags/hashtags personnalisés
+- Moments marquants de la partie
+
+## 🎯 Achievements & Gamification
+
+### Badges et succès
+- Débloquer des badges (1ère victoire, 100 parties, etc.)
+- Succès cachés à découvrir
+- Niveaux de joueur (Débutant → Expert → Maître)
+- Défis quotidiens/hebdomadaires
+- Collection de trophées virtuels
+
+### Objectifs personnels
+- Objectifs de progression (jouer 10 parties ce mois-ci)
+- Défis entre amis
+- Records personnels à battre
+
+## 💾 Sauvegarde & Backup
+
+### Gestion des données
+- Backup automatique local
+- Export complet de la base de données
+- Import depuis backup
+- Synchronisation Google Drive/Dropbox (local seulement)
+- Versioning des sauvegardes
+- Restauration sélective
+
+### Protection des données
+- Verrouillage par code PIN/empreinte
+- Chiffrement de la base de données
+- Sauvegarde automatique périodique
+
+## 🎲 Outils de jeu
+
+### Outils intégrés
+- Lanceur de dés multi-formats (d4, d6, d8, d10, d12, d20, d100)
+- Pile ou face
+- Distributeur de rôles aléatoires
+- Générateur de teams équilibrées
+- Calculatrice de scores intégrée
+- Convertisseur de points (ex: points → jetons)
+
+### Assistant de jeu
+- Aide-mémoire des règles
+- Guide de scoring par jeu
+- Lexique des termes de jeu
+- FAQ intégrée
+
+## 👥 Gestion avancée des joueurs
+
+### Profils enrichis
+- Date d'anniversaire
+- Couleur préférée (pour les pions)
+- Jeux préférés
+- Niveau par jeu
+- Notes personnelles sur le joueur
+
+### Groupes de joueurs
+- Création de groupes (famille, amis, club...)
+- Parties par défaut avec certains groupes
+- Statistiques de groupe
+
+## 🔍 Recherche & Filtres
+
+### Recherche avancée
+- Recherche multi-critères
+- Filtres par date, jeu, joueurs
+- Recherche dans les notes
+- Recherche par score
+- Sauvegarder des recherches favorites
+
+### Vues personnalisées
+- Vue calendrier des parties
+- Timeline des événements
+- Carte des lieux de jeu (hors ligne)
+
+## 🎮 Modes de jeu spéciaux
+
+### Modes alternatifs
+- Mode "Blind score" (scores cachés jusqu'à la fin)
+- Mode "Training" (ne compte pas dans les stats)
+- Mode "Défi" (objectif de score à atteindre)
+- Mode "Handicap" (points de départ différents)
+
+## 📱 Widgets & Raccourcis
+
+### Widgets d'écran d'accueil
+- Widget "Partie rapide" (lancer une partie en un tap)
+- Widget "Dernière partie" (reprendre la dernière)
+- Widget "Stats du jour"
+- Widget "Prochain événement"
+
+### Raccourcis
+- Action rapide "Nouvelle partie"
+- Action rapide "Scanner un jeu" (code-barres)
+- Quick tiles dans la barre de notifications
 
 ## 🔔 Notifications & Rappels
 
-- Rappels pour les soirées jeux planifiées
-- Suggestions de jeux non joués depuis longtemps
+### Notifications intelligentes
 - Notifications de milestones (100ème partie, etc.)
+- Rappel de parties inachevées
+- "Ça fait longtemps..." (n'a pas joué depuis X jours)
+- Suggestion de jeu peu joué
+- Anniversaire d'un joueur
 
-## 🌐 Fonctionnalités communautaires (cloud - si migration future)
+## 🌍 Import/Export
 
-- Partage de parties entre joueurs
-- Classements entre amis
-- Défis et achievements
-- Groupes de joueurs récurrents
+### Formats supportés
+- Import depuis autres apps de score
+- Export en format universel (JSON)
+- Génération de QR codes pour partage local
+- Import depuis photos (OCR des scores)
 
----
+## ⚙️ Paramètres avancés
 
-**Note** : Ces fonctionnalités sont des idées pour l'avenir. Priorité aux fonctionnalités core de l'app d'abord !
+### Personnalisation poussée
+- Choix des statistiques affichées
+- Ordre des écrans personnalisable
+- Raccourcis personnalisés
+- Gestes personnalisés
+- Sons et vibrations configurables
+- Format de date/heure
+- Unités de mesure (points, jetons, etc.)
